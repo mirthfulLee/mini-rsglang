@@ -1,0 +1,1 @@
+tensor parallel devices=[0, 1], NCCL=22703

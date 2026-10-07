@@ -1,0 +1,80 @@
+[1m[2026-10-06|15:23:55][0m [32mINFO    [0m Parsed arguments:
+ServerArgs(model_path='/models/store/Qwen/Qwen3-0.6B', tp_info=DistributedInfo(rank=0, size=2), dtype=torch.bfloat16, max_running_req=32, attention_backend='fi', moe_backend='auto', cuda_graph_bs=None, cuda_graph_max_bs=0, page_size=16, memory_ratio=0.9, distributed_timeout=60.0, use_dummy_weight=False, use_pynccl=True, max_seq_len_override=4096, num_page_override=2340, max_extend_tokens=512, cache_type='radix', offline_mode=False, _unique_suffix='.pid=471044', server_host='127.0.0.1', server_port=19673, num_tokenizer=0, silent_output=False)
+[1m[2026-10-06|15:23:59|initializer][0m [32mINFO    [0m Tokenize server 0 is ready
+[Gloo] Rank 1 is connected to 1 peer ranks. Expected number of connected peer ranks is : 1
+[Gloo] Rank 0 is connected to 1 peer ranks. Expected number of connected peer ranks is : 1
+[1m[2026-10-06|15:24:00|core|rank=0][0m [32mINFO    [0m Free memory before loading model: 78.49 GiB
+Loading weights:   0%|          | 0/1 [00:00<?, ?it/s]Loading weights: 100%|██████████| 1/1 [00:00<00:00,  1.87it/s]Loading weights: 100%|██████████| 1/1 [00:00<00:00,  1.87it/s]
+[1m[2026-10-06|15:24:02|core|rank=1][0m [32mINFO    [0m Allocating 37440 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:24:02|core|rank=0][0m [32mINFO    [0m Allocating 37440 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:24:02|core|rank=0][0m [32mINFO    [0m Free memory after initialization: 75.72 GiB
+[1m[2026-10-06|15:24:02|core|rank=0][0m [32mINFO    [0m CUDA graph is disabled.
+[1m[2026-10-06|15:24:02|core|rank=0][0m [32mINFO    [0m Scheduler is idle, waiting for new reqs...
+[1m[2026-10-06|15:24:02|initializer][0m [32mINFO    [0m Scheduler is ready
+[1m[2026-10-06|15:24:02|FrontendAPI][0m [32mINFO    [0m API server is ready to serve on 127.0.0.1:19673
+INFO:     Started server process [471044]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:19673 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50800 - "GET /v1/models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50810 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Process minisgl-TP0-scheduler:
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 110, in normal_loop
+    for msg in self.receive_msg(blocking=blocking):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 102, in _recv_msg_multi_rank0
+    self.tp_cpu_group.broadcast(src_tensor, root=0).wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/unbound_buffer.cc:129] Timed out waiting 60000ms for send operation to complete
+Process minisgl-TP1-scheduler:
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 110, in normal_loop
+    for msg in self.receive_msg(blocking=blocking):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 113, in _recv_msg_multi_rank1
+    pending_msgs.append(self._recv_from_rank0.get())
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/utils/mp.py", line 143, in get
+    event = self.socket.recv()
+            ^^^^^^^^^^^^^^^^^^
+  File "zmq/backend/cython/_zmq.py", line 1218, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1253, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1408, in zmq.backend.cython._zmq._recv_copy
+  File "zmq/backend/cython/_zmq.py", line 179, in zmq.backend.cython._zmq._check_rc
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 37, in _run_scheduler
+    scheduler.shutdown()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 135, in shutdown
+    self.sync_all_ranks()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 77, in sync_all_ranks
+    self.tp_cpu_group.barrier().wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.1.1]:43428
+INFO:     Shutting down
+[1m[2026-10-06|15:26:02|FrontendAPI][0m [33mWARNING [0m Aborting request for user 0
+INFO:     Waiting for application shutdown.

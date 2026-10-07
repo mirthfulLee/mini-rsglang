@@ -1,0 +1,5 @@
+*.rs text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+# Preserve exact whitespace in captured process output and generated text.
+results/**/*.log -whitespace

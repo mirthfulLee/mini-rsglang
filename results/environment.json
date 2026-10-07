@@ -1,0 +1,121 @@
+{
+  "date_utc": "2026-10-06T11:39:52Z",
+  "platform": "Linux-5.15.0-160-generic-x86_64-with-glibc2.35",
+  "rust": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "cargo": "cargo 1.99.0 (5f94df478 2026-08-27)",
+  "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2024 NVIDIA Corporation\nBuilt on Wed_Aug_14_10:10:22_PDT_2024\nCuda compilation tools, release 12.6, V12.6.68\nBuild cuda_12.6.r12.6/compiler.34714021_0",
+  "gpu": "0, NVIDIA A100-SXM4-80GB, GPU-6bc82229-d685-fa35-612d-1a96adbc4ac1, 560.35.03\n1, NVIDIA A100-SXM4-80GB, GPU-670e6f2b-6e1d-7345-f0df-8d389e1f49d4, 560.35.03\n2, NVIDIA A100-SXM4-80GB, GPU-b5a2b4bd-0ddc-9476-aa20-312448814999, 560.35.03\n3, NVIDIA A100-SXM4-80GB, GPU-ba3fe245-4101-7cd9-dd5c-6c10fb4e00f2, 560.35.03\n4, NVIDIA A100-SXM4-80GB, GPU-b86d714d-966b-55a5-3083-10da1ba26730, 560.35.03\n5, NVIDIA A100-SXM4-80GB, GPU-d6dee6eb-8856-13ed-dd0d-3f342a8f3aec, 560.35.03\n6, NVIDIA A100-SXM4-80GB, GPU-35758790-e888-bc8c-0bfc-f308aa7ebb75, 560.35.03\n7, NVIDIA A100-SXM4-80GB, GPU-7a63b2d2-2b10-09d2-eeb4-fac3d0108ac9, 560.35.03",
+  "reference_mini_sglang_commit": "9a91cfafe754aa85daee49998176275667eb58f2",
+  "python": "3.11.15 (main, Jun 23 2026, 15:19:43) [Clang 22.1.3 ]",
+  "system_cublas": "/usr/local/cuda-12.6/targets/x86_64-linux/lib/libcublas.so.12.6.1.4",
+  "system_nvrtc": "/usr/local/cuda-12.6/targets/x86_64-linux/lib/libnvrtc.so.12.6.68",
+  "runtime_requires_python": false,
+  "source_sha256": {
+    "crates/cache/Cargo.toml": "e142c4f9de815deb1f969f6930d8489765a3d76675fe8c4b62e5eb184ff770a4",
+    "crates/cache/src/lib.rs": "c9b4c0fc1f7986ff027146ac90df8fa9cef38e5db3832aa875776a6f55d50bd1",
+    "crates/core/Cargo.toml": "7c75a3faeae495fd78ddbc42a200a612571f897c6818d479ec371cff49f38774",
+    "crates/core/src/lib.rs": "1be9a6c3dd8277f0138f723e5f2ca2785d7b977c1429e3fd6ede8bbe2528a49d",
+    "crates/engine/Cargo.toml": "4c06ab5560a9a3fb0a751f82d689d7a1b1b0577ea3d261aab466f46d6b4bd69a",
+    "crates/engine/examples/forward.rs": "901d5a72cef47d11a5ae9a8edef809d5d61a66b5ce594498c1f2f3537ecd1b7f",
+    "crates/engine/examples/trace.rs": "61719392da9495de65a2cfe91c5f04477a817934a8f3a8f6ee13a15702f7bae7",
+    "crates/engine/src/lib.rs": "1fbf4e4bf8cd12e99b152936a06dc667493ce2f03d590c6a6ffc7865c841ce2d",
+    "crates/kernels/Cargo.toml": "03573399bfc48e906115aeb70c46867fa0f7d7f37df93fd955322433187d9df1",
+    "crates/kernels/examples/smoke.rs": "3b50753bc032966f0a57bd32a8f4652c3d30952c99e73fa8bf54582bcffda0a5",
+    "crates/kernels/examples/verify_ops.rs": "b252ab339fd25cabbd6c794e328b683431d9592dc0dcf3cff51c1de43d5f5850",
+    "crates/kernels/src/lib.rs": "1b16e848ea5096cf16f5747b731825f25dc7772586099ceda3c348b6e0ce73b9",
+    "crates/kernels/src/ops.cu": "9e91c4456bcbe5745b8a5c8b13a7cb128fa2aa301c2e934df8947f69ea23a9f5",
+    "crates/models/Cargo.toml": "f0a1d781666db1d6d340e5cd1d6a923ba79f1fffb8225605e896d9a02f0d1677",
+    "crates/models/src/lib.rs": "073db5bfcf31953b4306a17c4c1a79b01b9195b4288dacc8d2f2e4478ebe420e",
+    "crates/runtime/Cargo.toml": "ed0e606954ee19bf4b34e4e24881c3369023398b106e653daede5f794f5894e6",
+    "crates/runtime/examples/generate.rs": "8a2118f2b4c2365bf1033a7effe90fdc474b06f49e244e5ef0a5ba4fb4a8f639",
+    "crates/runtime/examples/template.rs": "7164f398a37e2e7903935839fac1bdc0274c9526d320f94f16538e53e4e42d60",
+    "crates/runtime/src/lib.rs": "6c8f9cb102d0a237b85a592a60d2031047daedf092017e7831b452179ad7911e",
+    "crates/runtime/src/metrics.rs": "2dcd41133da99a589dfedf7bc1582a62aeee1f229cd74678a785c903eccd58da",
+    "crates/runtime/src/scheduler.rs": "cd81a0e57f54eb439e059a9f27f1851aa466ad1bb0ca47a9d9895768f0b9551e",
+    "crates/runtime/src/tokenizer.rs": "98de7ba9f3dd18b5c0c23a1c4356a9feaf02090dd137d7e166eb12530155bcfa",
+    "crates/server/Cargo.toml": "4c31b276e810aeb83bcd4f7f7f587423b1f580bdf8b8e0f4d4a78c5f1f6af4ad",
+    "crates/server/src/api.rs": "6376eabf40111b532204e2e1780d201494a44c751d7ac529b667b5581a93f7eb",
+    "crates/server/src/bench.rs": "b7185a8d6237e6eec5411b12378a6ae0d641b84e120681cabfbdc084149f3c32",
+    "crates/server/src/main.rs": "5d9f0f03c6343a44e7a04a4d50be3dd339d6a96248b81a2ed2930231e8673784",
+    "scripts/compare_mini.py": "17a734bc51a8da13abf93c7e17939364ee66e790ed7ab19c9a2ce7bcf5aa6ef8",
+    "scripts/requirements-verify.txt": "59dbd2bd3102406b70eebbb5f46bec0cac31fa7dd20880a4f7a86049c018a057",
+    "scripts/verify_kernels.py": "1d4325cdece8709735c6975de1b02048bdcde7009ab2536f1485b29f41c60788",
+    "scripts/verify_model.py": "98eb00c11491d6d2af930e9a7898fcbccec80c34fed5afcc5503c61be3f8b910",
+    "scripts/verify_service.py": "164286095e6f8000f30c84aabd1cd7316578c34a17623454b71b2750afc41af7",
+    "scripts/verify_template.py": "908280a1a25bd8a27b7898c9aaa7628a17db8413d34858193e6b38160b81d61a",
+    "scripts/verify_trace.py": "d223d8757c3447f9319e4b9fae8e9dde82239c9f2f0749419667a520b1103675",
+    "Cargo.lock": "35d36eff2f3dda4bfaeee45cddfe3b435dc0169c5cd89fdd8c5c1ba62e610ed3",
+    "Cargo.toml": "fc874416d17e4bee58492ff921bb8b36b2919c7997d2eedf85dfde0989a249b1",
+    "rust-toolchain.toml": "2ad6f15416572b4836585087f1d4abc53b8fa2dbd616f8dacfaa587ed6714228"
+  },
+  "models": {
+    "Qwen3-0.6B": {
+      "config.json": {
+        "sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+        "bytes": 726
+      },
+      "configuration.json": {
+        "sha256": "f888421726665e8a84b738eed42a64875aed79de8be7daade851ac8bf4c0cef9",
+        "bytes": 73
+      },
+      "generation_config.json": {
+        "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+        "bytes": 239
+      },
+      "model.safetensors": {
+        "sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+        "bytes": 1503300328
+      },
+      "tokenizer.json": {
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "bytes": 11422654
+      },
+      "tokenizer_config.json": {
+        "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "bytes": 9732
+      },
+      "vocab.json": {
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "bytes": 2776833
+      }
+    },
+    "Qwen3-1.7B": {
+      "config.json": {
+        "sha256": "1ddb5b89ebc90dcb417a45c213d818577e65976454d29385c8f6140771d95197",
+        "bytes": 726
+      },
+      "configuration.json": {
+        "sha256": "f888421726665e8a84b738eed42a64875aed79de8be7daade851ac8bf4c0cef9",
+        "bytes": 73
+      },
+      "generation_config.json": {
+        "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+        "bytes": 239
+      },
+      "model-00001-of-00002.safetensors": {
+        "sha256": "169ad53ec313c3a34b06c0809216e4fc072cce444a5d4ff2b59690d064130ed5",
+        "bytes": 3441185608
+      },
+      "model-00002-of-00002.safetensors": {
+        "sha256": "912becff8d60672aa8628ef08c05898d9adf17c2ad4ae3caf99b065622fdeff9",
+        "bytes": 622329984
+      },
+      "model.safetensors.index.json": {
+        "sha256": "0d660e94b165eb912669a5249dff44b83188c4777a07ddb9611fb78d91b0578d",
+        "bytes": 25605
+      },
+      "tokenizer.json": {
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+        "bytes": 11422654
+      },
+      "tokenizer_config.json": {
+        "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "bytes": 9732
+      },
+      "vocab.json": {
+        "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+        "bytes": 2776833
+      }
+    }
+  }
+}

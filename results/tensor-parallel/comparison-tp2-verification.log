@@ -1,0 +1,335 @@
+{
+  "framework": "mini-rsglang",
+  "cache": "naive",
+  "model": "/models/store/Qwen/Qwen3-0.6B",
+  "dtype": "bfloat16",
+  "devices": [
+    0,
+    1
+  ],
+  "tp_size": 2,
+  "logical_kv_pages": 2340,
+  "nccl_p2p_level": "NVL",
+  "input_tokens": 128,
+  "output_tokens": 32,
+  "requests": 16,
+  "concurrency": 8,
+  "elapsed_s": 2.7426304733380675,
+  "output_tokens_per_s": 186.68209406163368,
+  "ttft_ms": {
+    "p50": 196.6094048693776,
+    "p95": 342.5247927661985
+  },
+  "itl_ms": {
+    "p50": 34.25963316112757,
+    "p95": 39.12777081131935
+  },
+  "peak_memory_bytes": 8214544384,
+  "peak_memory_per_gpu_bytes": [
+    4107272192,
+    4107272192
+  ],
+  "memory_samples_bytes": [
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4126146560,
+      4157603840
+    ],
+    [
+      4126146560,
+      4157603840
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4126146560,
+      4157603840
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4126146560,
+      4157603840
+    ],
+    [
+      4126146560,
+      4157603840
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ]
+  ],
+  "baseline_memory_bytes": [
+    18874368,
+    50331648
+  ],
+  "cached_tokens": 0,
+  "cuda_graph": false,
+  "overlap": false,
+  "warmup_waves": 2,
+  "metrics_before": "rsglang_cached_pages 0\nrsglang_cached_tokens 0\nrsglang_cancelled 0\nrsglang_completed 17\nrsglang_decode_batches 66\nrsglang_failed 0\nrsglang_free_pages 2340\nrsglang_generated_tokens 513\nrsglang_healthy 1\nrsglang_peak_memory_bytes 8283750400\nrsglang_prefill_batches 7\nrsglang_prompt_tokens 2176\nrsglang_running 0\nrsglang_submitted 17\nrsglang_waiting 0\n"
+}
+{
+  "framework": "mini-rsglang",
+  "cache": "radix",
+  "model": "/models/store/Qwen/Qwen3-0.6B",
+  "dtype": "bfloat16",
+  "devices": [
+    0,
+    1
+  ],
+  "tp_size": 2,
+  "logical_kv_pages": 2340,
+  "nccl_p2p_level": "NVL",
+  "input_tokens": 128,
+  "output_tokens": 32,
+  "requests": 16,
+  "concurrency": 8,
+  "elapsed_s": 2.5560706770047545,
+  "output_tokens_per_s": 200.3074502618879,
+  "ttft_ms": {
+    "p50": 117.51124728471041,
+    "p95": 131.12134113907814
+  },
+  "itl_ms": {
+    "p50": 36.06363758444786,
+    "p95": 46.01518786512315
+  },
+  "peak_memory_bytes": 8214544384,
+  "peak_memory_per_gpu_bytes": [
+    4107272192,
+    4107272192
+  ],
+  "memory_samples_bytes": [
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4126146560,
+      4157603840
+    ],
+    [
+      4126146560,
+      4157603840
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4092592128,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ],
+    [
+      4126146560,
+      4124049408
+    ]
+  ],
+  "baseline_memory_bytes": [
+    18874368,
+    50331648
+  ],
+  "cached_tokens": 1792,
+  "cuda_graph": false,
+  "overlap": false,
+  "warmup_waves": 2,
+  "metrics_before": "rsglang_cached_pages 9\nrsglang_cached_tokens 1792\nrsglang_cancelled 0\nrsglang_completed 17\nrsglang_decode_batches 64\nrsglang_failed 0\nrsglang_free_pages 2331\nrsglang_generated_tokens 513\nrsglang_healthy 1\nrsglang_peak_memory_bytes 8283750400\nrsglang_prefill_batches 5\nrsglang_prompt_tokens 2176\nrsglang_running 0\nrsglang_submitted 17\nrsglang_waiting 0\n"
+}
+{
+  "framework": "mini-sglang",
+  "cache": "naive",
+  "model": "/models/store/Qwen/Qwen3-0.6B",
+  "dtype": "bfloat16",
+  "devices": [
+    0,
+    1
+  ],
+  "tp_size": 2,
+  "logical_kv_pages": 2340,
+  "nccl_p2p_level": "NVL",
+  "input_tokens": 128,
+  "output_tokens": 32,
+  "requests": 16,
+  "concurrency": 8,
+  "elapsed_s": 1.3234095573425293,
+  "output_tokens_per_s": 386.8794789635046,
+  "ttft_ms": {
+    "p50": 59.41136972978711,
+    "p95": 77.91986037045717
+  },
+  "itl_ms": {
+    "p50": 17.902547493577003,
+    "p95": 24.673706153407693
+  },
+  "peak_memory_bytes": 8277458944,
+  "peak_memory_per_gpu_bytes": [
+    4138729472,
+    4138729472
+  ],
+  "memory_samples_bytes": [
+    [
+      4157603840,
+      4189061120
+    ],
+    [
+      4157603840,
+      4189061120
+    ],
+    [
+      4157603840,
+      4189061120
+    ],
+    [
+      4157603840,
+      4189061120
+    ],
+    [
+      4157603840,
+      4189061120
+    ],
+    [
+      4157603840,
+      4189061120
+    ],
+    [
+      4157603840,
+      4189061120
+    ],
+    [
+      4157603840,
+      4189061120
+    ],
+    [
+      4157603840,
+      4189061120
+    ]
+  ],
+  "baseline_memory_bytes": [
+    18874368,
+    50331648
+  ],
+  "cached_tokens": null,
+  "cuda_graph": false,
+  "overlap": false,
+  "warmup_waves": 2,
+  "metrics_before": null
+}
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/urllib3/response.py", line 929, in _error_catcher
+    yield
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/urllib3/response.py", line 1459, in read_chunked
+    self._update_chunk_length()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/urllib3/response.py", line 1367, in _update_chunk_length
+    line = self._fp.fp.readline(_MAX_CHUNK_LINE_LENGTH + 1)  # type: ignore[union-attr]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/socket.py", line 718, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/compare_mini.py", line 233, in <module>
+    generate(endpoint, model_id, 1)
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/compare_mini.py", line 120, in generate
+    for packet in r.raw.stream(amt=None, decode_content=True):
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/urllib3/response.py", line 1284, in stream
+    yield from self.read_chunked(amt, decode_content=decode_content)
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/urllib3/response.py", line 1436, in read_chunked
+    with self._error_catcher():
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 158, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/urllib3/response.py", line 934, in _error_catcher
+    raise ReadTimeoutError(self._pool, None, "Read timed out.") from e  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.ReadTimeoutError: HTTPConnectionPool(host='127.0.0.1', port=19673): Read timed out.

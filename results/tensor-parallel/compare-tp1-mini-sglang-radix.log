@@ -1,0 +1,61 @@
+[1m[2026-10-06|15:22:48][0m [32mINFO    [0m Parsed arguments:
+ServerArgs(model_path='/models/store/Qwen/Qwen3-0.6B', tp_info=DistributedInfo(rank=0, size=1), dtype=torch.bfloat16, max_running_req=32, attention_backend='fi', moe_backend='auto', cuda_graph_bs=None, cuda_graph_max_bs=0, page_size=16, memory_ratio=0.9, distributed_timeout=60.0, use_dummy_weight=False, use_pynccl=True, max_seq_len_override=4096, num_page_override=1170, max_extend_tokens=512, cache_type='radix', offline_mode=False, _unique_suffix='.pid=435079', server_host='127.0.0.1', server_port=19673, num_tokenizer=0, silent_output=False)
+[1m[2026-10-06|15:22:51|initializer][0m [32mINFO    [0m Tokenize server 0 is ready
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[1m[2026-10-06|15:22:51|core|rank=0][0m [32mINFO    [0m Free memory before loading model: 78.81 GiB
+Loading weights:   0%|          | 0/1 [00:00<?, ?it/s]Loading weights: 100%|██████████| 1/1 [00:00<00:00,  1.92it/s]Loading weights: 100%|██████████| 1/1 [00:00<00:00,  1.92it/s]
+[1m[2026-10-06|15:22:53|core|rank=0][0m [32mINFO    [0m Allocating 18720 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:22:53|core|rank=0][0m [32mINFO    [0m Free memory after initialization: 75.41 GiB
+[1m[2026-10-06|15:22:53|core|rank=0][0m [32mINFO    [0m CUDA graph is disabled.
+[1m[2026-10-06|15:22:53|core|rank=0][0m [32mINFO    [0m Scheduler is idle, waiting for new reqs...
+[1m[2026-10-06|15:22:53|initializer][0m [32mINFO    [0m Scheduler is ready
+[1m[2026-10-06|15:22:53|FrontendAPI][0m [32mINFO    [0m API server is ready to serve on 127.0.0.1:19673
+INFO:     Started server process [435079]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:19673 (Press CTRL+C to quit)
+INFO:     127.0.0.1:59102 - "GET /v1/models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59116 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[1m[2026-10-06|15:22:54|core|rank=0][0m [32mINFO    [0m Scheduler is idle, waiting for new reqs...
+INFO:     127.0.0.1:59118 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59134 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59140 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59148 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59150 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59158 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59164 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59168 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[1m[2026-10-06|15:22:55|core|rank=0][0m [32mINFO    [0m Scheduler is idle, waiting for new reqs...
+INFO:     127.0.0.1:59172 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59180 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59192 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59198 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59208 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59222 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59238 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59242 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[1m[2026-10-06|15:22:55|core|rank=0][0m [32mINFO    [0m Scheduler is idle, waiting for new reqs...
+INFO:     127.0.0.1:59244 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59256 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59258 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59270 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59274 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59284 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59300 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59310 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[1m[2026-10-06|15:22:55|core|rank=0][0m [32mINFO    [0m Scheduler is idle, waiting for new reqs...
+INFO:     127.0.0.1:59326 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59340 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59348 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59362 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59374 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59380 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59366 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59386 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[1m[2026-10-06|15:22:56|core|rank=0][0m [32mINFO    [0m Scheduler is idle, waiting for new reqs...
+
+[1m[2026-10-06|15:22:56|core|rank=0][0m [32mINFO    [0m Scheduler exiting gracefully...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [435079]

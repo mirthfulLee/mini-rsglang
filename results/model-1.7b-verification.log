@@ -1,0 +1,20 @@
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00, 74.80it/s]
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-1.7B /data1/huanli/projects/llm-inference/mini-rsglang/results/model-1.7b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/model-1.7b/full 4096`
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-1.7B /data1/huanli/projects/llm-inference/mini-rsglang/results/model-1.7b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/model-1.7b/chunked 17`
+exported 3 batched sequences, prefill plus 4 decode steps
+{
+  "comparisons": 30,
+  "max_nrmse": 0.028731674587385896,
+  "min_cosine": 0.9996269151430713,
+  "top1_equal": 30,
+  "failures": 5
+}
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/verify_model.py", line 179, in <module>
+    main()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/verify_model.py", line 174, in main
+    not failures
+AssertionError: 5 comparisons failed; full evidence saved to /data1/huanli/projects/llm-inference/mini-rsglang/results/model-1.7b/report.json

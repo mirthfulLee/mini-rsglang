@@ -1,0 +1,46 @@
+   Compiling rsglang-kernels v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/kernels)
+   Compiling rsglang-models v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/models)
+   Compiling rsglang-engine v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/engine)
+    Finished `release` profile [optimized + debuginfo] target(s) in 2.82s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/tp1/full 4096 0`
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.05s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/tp1/chunked 17 0`
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/tp2/full 4096 0,1`
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/tp2/chunked 17 0,1`
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/tp4/full 4096 0,1,2,3`
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/tp4/chunked 17 0,1,2,3`
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/tp8/full 4096 0,1,2,3,4,5,6,7`
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.05s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/tp8/chunked 17 0,1,2,3,4,5,6,7`
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 4 decode steps
+{
+  "comparisons": 120,
+  "max_nrmse": 0.023078703983040974,
+  "min_cosine": 0.9997466176202864,
+  "top1_equal": 120,
+  "failures": 6
+}
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/verify_model.py", line 204, in <module>
+    main()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/verify_model.py", line 199, in main
+    not failures
+AssertionError: 6 comparisons failed; full evidence saved to /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/report.json

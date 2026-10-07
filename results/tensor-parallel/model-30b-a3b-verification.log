@@ -1,0 +1,22 @@
+Loading checkpoint shards:   0%|          | 0/16 [00:00<?, ?it/s]Loading checkpoint shards:  12%|█▎        | 2/16 [00:00<00:01,  9.56it/s]Loading checkpoint shards:  19%|█▉        | 3/16 [00:00<00:01,  9.06it/s]Loading checkpoint shards:  25%|██▌       | 4/16 [00:00<00:01,  8.87it/s]Loading checkpoint shards:  31%|███▏      | 5/16 [00:00<00:01,  8.82it/s]Loading checkpoint shards:  38%|███▊      | 6/16 [00:00<00:01,  8.79it/s]Loading checkpoint shards:  44%|████▍     | 7/16 [00:00<00:01,  8.76it/s]Loading checkpoint shards:  50%|█████     | 8/16 [00:00<00:00,  8.74it/s]Loading checkpoint shards:  56%|█████▋    | 9/16 [00:01<00:00,  8.69it/s]Loading checkpoint shards:  62%|██████▎   | 10/16 [00:01<00:00,  8.69it/s]Loading checkpoint shards:  69%|██████▉   | 11/16 [00:01<00:00,  8.71it/s]Loading checkpoint shards:  75%|███████▌  | 12/16 [00:01<00:00,  8.73it/s]Loading checkpoint shards:  81%|████████▏ | 13/16 [00:01<00:00,  8.65it/s]Loading checkpoint shards:  88%|████████▊ | 14/16 [00:01<00:00,  8.69it/s]Loading checkpoint shards:  94%|█████████▍| 15/16 [00:01<00:00,  8.71it/s]Loading checkpoint shards: 100%|██████████| 16/16 [00:01<00:00,  9.28it/s]
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-30B-A3B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-30b-a3b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-30b-a3b/tp8/full 4096 0,1,2,3,4,5,6,7`
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 1 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.05s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-30B-A3B /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-30b-a3b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-30b-a3b/tp8/chunked 17 0,1,2,3,4,5,6,7`
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 1 decode steps
+{
+  "comparisons": 12,
+  "max_nrmse": 0.09662067478511027,
+  "min_cosine": 0.9962681722183735,
+  "top1_equal": 12,
+  "failures": 12
+}
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/verify_model.py", line 204, in <module>
+    main()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/verify_model.py", line 199, in main
+    not failures
+AssertionError: 12 comparisons failed; full evidence saved to /data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-30b-a3b/report.json

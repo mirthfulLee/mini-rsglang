@@ -1,0 +1,62 @@
+{
+  "norm": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "linear": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "logits": {
+    "max_abs_error": 4.76837158203125e-07,
+    "nrmse": 3.143172477848566e-08
+  },
+  "add": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "swiglu": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "embedding": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "rope": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "kc": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "vc": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "last": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "attention": {
+    "max_abs_error": 0.000244140625,
+    "nrmse": 3.281137196609052e-06
+  },
+  "moe_routing_scatter_normalized_False": {
+    "max_abs_error": 0.0,
+    "selected_experts": 6
+  },
+  "moe_routing_scatter_normalized_True": {
+    "max_abs_error": 0.0,
+    "selected_experts": 6
+  },
+  "gemm_row_block_boundary": {
+    "rows": 33,
+    "passed": true
+  },
+  "fused_gemm_split": {
+    "parts": 2,
+    "passed": true
+  }
+}

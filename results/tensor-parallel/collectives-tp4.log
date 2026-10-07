@@ -1,0 +1,26 @@
+rank 0 entering sum
+rank 2 entering sum
+rank 1 entering sum
+rank 3 entering sum
+rank 2 sum enqueued
+rank 3 sum enqueued
+rank 0 sum enqueued
+rank 1 sum enqueued
+rank 0 sum downloaded
+
+thread 'rsglang-rank-0' (3305697) panicked at crates/kernels/examples/collectives.rs:30:9:
+rank 0 expected 10, actual [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+rank 1 sum downloaded
+
+thread 'rsglang-rank-1' (3305698) panicked at crates/kernels/examples/collectives.rs:30:9:
+rank 1 expected 10, actual [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+rank 3 sum downloaded
+rank 
+thread 'rsglang-rank-3' (3305700) panicked at crates/kernels/examples/collectives.rs:30:9:
+rank 3 expected 10, actual [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+2 sum downloaded
+
+thread 'rsglang-rank-2' (3305699) panicked at crates/kernels/examples/collectives.rs:30:9:
+rank 2 expected 10, actual [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+Error: Backend("TP step 1 failed waiting for ranks: timed out waiting on channel")

@@ -1,0 +1,238 @@
+{
+  "framework": "mini-rsglang",
+  "cache": "naive",
+  "model": "/models/store/Qwen/Qwen3-0.6B",
+  "dtype": "bfloat16",
+  "devices": [
+    0
+  ],
+  "tp_size": 1,
+  "logical_kv_pages": 1170,
+  "nccl_p2p_level": "NVL",
+  "input_tokens": 128,
+  "output_tokens": 32,
+  "requests": 16,
+  "concurrency": 8,
+  "elapsed_s": 0.7797225834801793,
+  "output_tokens_per_s": 656.6437997919232,
+  "ttft_ms": {
+    "p50": 77.81105022877455,
+    "p95": 117.33873514458537
+  },
+  "itl_ms": {
+    "p50": 8.69534956291318,
+    "p95": 9.37594915740192
+  },
+  "peak_memory_bytes": 4182769664,
+  "peak_memory_per_gpu_bytes": [
+    4182769664
+  ],
+  "memory_samples_bytes": [
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ],
+    [
+      4201644032
+    ],
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ]
+  ],
+  "baseline_memory_bytes": [
+    18874368
+  ],
+  "cached_tokens": 0,
+  "cuda_graph": false,
+  "overlap": false,
+  "warmup_waves": 2,
+  "metrics_before": "rsglang_cached_pages 0\nrsglang_cached_tokens 0\nrsglang_cancelled 0\nrsglang_completed 17\nrsglang_decode_batches 66\nrsglang_failed 0\nrsglang_free_pages 1170\nrsglang_generated_tokens 513\nrsglang_healthy 1\nrsglang_peak_memory_bytes 4168089600\nrsglang_prefill_batches 7\nrsglang_prompt_tokens 2176\nrsglang_running 0\nrsglang_submitted 17\nrsglang_waiting 0\n"
+}
+{
+  "framework": "mini-rsglang",
+  "cache": "radix",
+  "model": "/models/store/Qwen/Qwen3-0.6B",
+  "dtype": "bfloat16",
+  "devices": [
+    0
+  ],
+  "tp_size": 1,
+  "logical_kv_pages": 1170,
+  "nccl_p2p_level": "NVL",
+  "input_tokens": 128,
+  "output_tokens": 32,
+  "requests": 16,
+  "concurrency": 8,
+  "elapsed_s": 0.6371060246601701,
+  "output_tokens_per_s": 803.6339010812193,
+  "ttft_ms": {
+    "p50": 32.26186381652951,
+    "p95": 40.78735620714724
+  },
+  "itl_ms": {
+    "p50": 8.458583615720272,
+    "p95": 13.344928389415145
+  },
+  "peak_memory_bytes": 4115660800,
+  "peak_memory_per_gpu_bytes": [
+    4115660800
+  ],
+  "memory_samples_bytes": [
+    [
+      4134535168
+    ],
+    [
+      4134535168
+    ],
+    [
+      4134535168
+    ],
+    [
+      4134535168
+    ],
+    [
+      4134535168
+    ],
+    [
+      4134535168
+    ]
+  ],
+  "baseline_memory_bytes": [
+    18874368
+  ],
+  "cached_tokens": 1792,
+  "cuda_graph": false,
+  "overlap": false,
+  "warmup_waves": 2,
+  "metrics_before": "rsglang_cached_pages 9\nrsglang_cached_tokens 1792\nrsglang_cancelled 0\nrsglang_completed 17\nrsglang_decode_batches 64\nrsglang_failed 0\nrsglang_free_pages 1161\nrsglang_generated_tokens 513\nrsglang_healthy 1\nrsglang_peak_memory_bytes 4134535168\nrsglang_prefill_batches 5\nrsglang_prompt_tokens 2176\nrsglang_running 0\nrsglang_submitted 17\nrsglang_waiting 0\n"
+}
+{
+  "framework": "mini-sglang",
+  "cache": "naive",
+  "model": "/models/store/Qwen/Qwen3-0.6B",
+  "dtype": "bfloat16",
+  "devices": [
+    0
+  ],
+  "tp_size": 1,
+  "logical_kv_pages": 1170,
+  "nccl_p2p_level": "NVL",
+  "input_tokens": 128,
+  "output_tokens": 32,
+  "requests": 16,
+  "concurrency": 8,
+  "elapsed_s": 0.73655622638762,
+  "output_tokens_per_s": 695.1268371066012,
+  "ttft_ms": {
+    "p50": 27.564529795199633,
+    "p95": 39.586953818798065
+  },
+  "itl_ms": {
+    "p50": 10.43784711509943,
+    "p95": 13.765772338956594
+  },
+  "peak_memory_bytes": 4149215232,
+  "peak_memory_per_gpu_bytes": [
+    4149215232
+  ],
+  "memory_samples_bytes": [
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ],
+    [
+      4168089600
+    ]
+  ],
+  "baseline_memory_bytes": [
+    18874368
+  ],
+  "cached_tokens": null,
+  "cuda_graph": false,
+  "overlap": false,
+  "warmup_waves": 2,
+  "metrics_before": null
+}
+{
+  "framework": "mini-sglang",
+  "cache": "radix",
+  "model": "/models/store/Qwen/Qwen3-0.6B",
+  "dtype": "bfloat16",
+  "devices": [
+    0
+  ],
+  "tp_size": 1,
+  "logical_kv_pages": 1170,
+  "nccl_p2p_level": "NVL",
+  "input_tokens": 128,
+  "output_tokens": 32,
+  "requests": 16,
+  "concurrency": 8,
+  "elapsed_s": 0.6442617466673255,
+  "output_tokens_per_s": 794.708055613271,
+  "ttft_ms": {
+    "p50": 27.632285840809345,
+    "p95": 33.36129989475012
+  },
+  "itl_ms": {
+    "p50": 8.821651805192232,
+    "p95": 9.78980353102088
+  },
+  "peak_memory_bytes": 4147118080,
+  "peak_memory_per_gpu_bytes": [
+    4147118080
+  ],
+  "memory_samples_bytes": [
+    [
+      4165992448
+    ],
+    [
+      4165992448
+    ],
+    [
+      4165992448
+    ],
+    [
+      4165992448
+    ],
+    [
+      4165992448
+    ],
+    [
+      4165992448
+    ]
+  ],
+  "baseline_memory_bytes": [
+    18874368
+  ],
+  "cached_tokens": null,
+  "cuda_graph": false,
+  "overlap": false,
+  "warmup_waves": 2,
+  "metrics_before": null
+}

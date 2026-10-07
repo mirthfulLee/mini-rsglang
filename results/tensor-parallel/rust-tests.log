@@ -1,0 +1,125 @@
+   Compiling rsglang-kernels v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/kernels)
+   Compiling rsglang-models v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/models)
+   Compiling rsglang-engine v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/engine)
+   Compiling rsglang-runtime v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/runtime)
+   Compiling rsglang-server v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/server)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.80s
+     Running unittests src/lib.rs (target/debug/deps/rsglang_cache-2fd7664b17f85590)
+
+running 4 tests
+test tests::radix_split_and_pins_survive_branching ... ok
+test tests::reservations_prevent_overcommit_and_allow_eviction ... ok
+test tests::shares_only_full_pages_and_recomputes_last_token ... ok
+test tests::randomized_lifetimes_conserve_every_page ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/lib.rs (target/debug/deps/rsglang_core-7c68a0967c58fd6a)
+
+running 2 tests
+test tests::rejects_nonfinite_and_out_of_range_sampling ... ok
+test tests::runtime_limits_are_checked ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/rsglang_distributed-21171d9e373e0ac8)
+
+running 4 tests
+test tests::partitions_and_replicated_kv_preserve_gqa ... ok
+test tests::odd_vocab_padding_and_column_indices ... ok
+test group::tests::rank_failure_aborts_and_poisoned_group_rejects_more_work ... ok
+test group::tests::all_ranks_complete_and_only_primary_returns_tokens ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/rsglang_engine-7d4e0803cdcd8c0a)
+
+running 1 test
+test tests::nucleus_seed_and_top_k ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/rsglang_kernels-5c8d6919992fd045)
+
+running 1 test
+test parallel_ops::gpu_tests::rank_ordered_sum_cancellation_and_bounds ... ignored, requires NVIDIA CUDA 12.6; run explicitly and under Compute Sanitizer
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/rsglang_models-e6ec22bff4fa0e18)
+
+running 4 tests
+test tests::checkpoint_slices_columns_and_zero_pads_empty_vocab_ranks ... ok
+test tests::checkpoint_eos_list_is_validated ... ok
+test tests::explicit_head_dimension_and_architecture_checks ... ok
+test tests::moe_shards_replicate_router_and_kv_but_partition_every_expert ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/rsglang_runtime-a1ca109c2d6aa9e1)
+
+running 11 tests
+test scheduler::resource_tests::error_cleanup_returns_all_pages ... ok
+test scheduler::tests::eos_ends_without_another_decode ... ok
+test scheduler::resource_tests::slow_consumer_is_cancelled_without_blocking_other_requests ... ok
+test scheduler::tests::cancellation_in_waiting_prefill_and_decode ... ok
+test scheduler::resource_tests::tiny_pool_waits_for_reserved_request_to_finish ... ok
+test scheduler::tests::chunking_and_fairness ... ok
+test scheduler::tests::repeated_prompt_hits_prefix_cache ... ok
+test stream_tests::normal_completion_does_not_synthesize_an_error ... ok
+test stream_tests::premature_closure_is_an_error_then_eof ... ok
+test tokenizer::tests::holds_partial_utf8_until_complete ... ok
+test tokenizer::tests::flushes_incomplete_final_character ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/mini_rsglang-1e2bf952453b27c8)
+
+running 2 tests
+test api::tests::defaults_and_stream_options ... ok
+test api::tests::unsupported_parameters_are_rejected ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rsglang_cache
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rsglang_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rsglang_distributed
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rsglang_engine
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rsglang_kernels
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rsglang_models
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rsglang_runtime
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

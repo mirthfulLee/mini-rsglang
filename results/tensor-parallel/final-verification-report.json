@@ -1,0 +1,235 @@
+[
+  {
+    "name": "ranked-sum-test",
+    "command": [
+      "/data1/huanli/projects/llm-inference/mini-rsglang/target/release/deps/rsglang_kernels-0a5134aa02d78d95",
+      "rank_ordered_sum_cancellation_and_bounds",
+      "--ignored",
+      "--nocapture"
+    ],
+    "status": 0,
+    "elapsed_s": 1.5182273387908936
+  },
+  {
+    "name": "ranked-sum-memcheck",
+    "command": [
+      "/usr/local/cuda/bin/compute-sanitizer",
+      "--error-exitcode",
+      "99",
+      "--tool",
+      "memcheck",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/target/release/deps/rsglang_kernels-0a5134aa02d78d95",
+      "rank_ordered_sum_cancellation_and_bounds",
+      "--ignored",
+      "--nocapture"
+    ],
+    "status": 0,
+    "elapsed_s": 2.721811056137085
+  },
+  {
+    "name": "ranked-sum-racecheck",
+    "command": [
+      "/usr/local/cuda/bin/compute-sanitizer",
+      "--error-exitcode",
+      "99",
+      "--tool",
+      "racecheck",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/target/release/deps/rsglang_kernels-0a5134aa02d78d95",
+      "rank_ordered_sum_cancellation_and_bounds",
+      "--ignored",
+      "--nocapture"
+    ],
+    "status": 0,
+    "elapsed_s": 3.2232720851898193
+  },
+  {
+    "name": "native-collectives-tp8",
+    "command": [
+      "target/release/examples/collectives",
+      "0,1,2,3,4,5,6,7"
+    ],
+    "status": 0,
+    "elapsed_s": 9.540637731552124
+  },
+  {
+    "name": "fixture-group",
+    "command": [
+      "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python",
+      "scripts/verify_tensor_parallel.py"
+    ],
+    "status": 0,
+    "elapsed_s": 64.74387884140015
+  },
+  {
+    "name": "service-group-tp8",
+    "command": [
+      "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python",
+      "scripts/verify_service.py",
+      "--devices",
+      "0,1,2,3,4,5,6,7",
+      "--output",
+      "results/tensor-parallel/service-tp8.json"
+    ],
+    "status": 0,
+    "elapsed_s": 67.03494000434875
+  },
+  {
+    "name": "group-model-0.6b-full",
+    "command": [
+      "target/release/examples/forward",
+      "/models/store/Qwen/Qwen3-0.6B",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/group-validation/model-0.6b/full",
+      "4096",
+      "0,1,2,3,4,5,6,7"
+    ],
+    "status": 0,
+    "elapsed_s": 11.446148872375488
+  },
+  {
+    "name": "group-model-0.6b-chunked",
+    "command": [
+      "target/release/examples/forward",
+      "/models/store/Qwen/Qwen3-0.6B",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-0.6b/input.json",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/group-validation/model-0.6b/chunked",
+      "17",
+      "0,1,2,3,4,5,6,7"
+    ],
+    "status": 0,
+    "elapsed_s": 12.349247217178345
+  },
+  {
+    "name": "group-model-1.7b-full",
+    "command": [
+      "target/release/examples/forward",
+      "/models/store/Qwen/Qwen3-1.7B",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-1.7b/input.json",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/group-validation/model-1.7b/full",
+      "4096",
+      "0,1,2,3,4,5,6,7"
+    ],
+    "status": 0,
+    "elapsed_s": 13.952221155166626
+  },
+  {
+    "name": "group-model-1.7b-chunked",
+    "command": [
+      "target/release/examples/forward",
+      "/models/store/Qwen/Qwen3-1.7B",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/model-1.7b/input.json",
+      "/data1/huanli/projects/llm-inference/mini-rsglang/results/tensor-parallel/group-validation/model-1.7b/chunked",
+      "17",
+      "0,1,2,3,4,5,6,7"
+    ],
+    "status": 0,
+    "elapsed_s": 13.699546337127686
+  },
+  {
+    "name": "generation-final-30b-a3b-tp8",
+    "command": [
+      "target/release/mini-rsglang",
+      "--model",
+      "/models/store/Qwen/Qwen3-30B-A3B",
+      "--tensor-parallel-size",
+      "8",
+      "--kv-mib",
+      "64",
+      "--max-seq-len",
+      "256",
+      "generate",
+      "--chat",
+      "--prompt",
+      "\u8bf7\u7528\u4e00\u53e5\u8bdd\u89e3\u91ca Rust \u7684\u6240\u6709\u6743\u3002",
+      "--max-tokens",
+      "16",
+      "--json"
+    ],
+    "status": 0,
+    "elapsed_s": 94.73663663864136
+  },
+  {
+    "name": "bench-final-tp1",
+    "command": [
+      "target/release/mini-rsglang",
+      "--tensor-parallel-size",
+      "1",
+      "bench",
+      "--requests",
+      "16",
+      "--concurrency",
+      "8",
+      "--input-tokens",
+      "128",
+      "--output-tokens",
+      "32",
+      "--output",
+      "results/tensor-parallel/bench-tp1.json"
+    ],
+    "status": 0,
+    "elapsed_s": 13.24903154373169
+  },
+  {
+    "name": "bench-final-tp2",
+    "command": [
+      "target/release/mini-rsglang",
+      "--tensor-parallel-size",
+      "2",
+      "bench",
+      "--requests",
+      "16",
+      "--concurrency",
+      "8",
+      "--input-tokens",
+      "128",
+      "--output-tokens",
+      "32",
+      "--output",
+      "results/tensor-parallel/bench-tp2.json"
+    ],
+    "status": 0,
+    "elapsed_s": 21.32142424583435
+  },
+  {
+    "name": "bench-final-tp4",
+    "command": [
+      "target/release/mini-rsglang",
+      "--tensor-parallel-size",
+      "4",
+      "bench",
+      "--requests",
+      "16",
+      "--concurrency",
+      "8",
+      "--input-tokens",
+      "128",
+      "--output-tokens",
+      "32",
+      "--output",
+      "results/tensor-parallel/bench-tp4.json"
+    ],
+    "status": 0,
+    "elapsed_s": 23.877665519714355
+  },
+  {
+    "name": "bench-final-tp8",
+    "command": [
+      "target/release/mini-rsglang",
+      "--tensor-parallel-size",
+      "8",
+      "bench",
+      "--requests",
+      "16",
+      "--concurrency",
+      "8",
+      "--input-tokens",
+      "128",
+      "--output-tokens",
+      "32",
+      "--output",
+      "results/tensor-parallel/bench-tp8.json"
+    ],
+    "status": 0,
+    "elapsed_s": 33.79823851585388
+  }
+]

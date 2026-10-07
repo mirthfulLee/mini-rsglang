@@ -1,0 +1,1 @@
+NCCL 8 ranks: sum, cancellation order, sharded embedding, padded batched logits, greedy and peer-failure cleanup passed; failure test 2.274s

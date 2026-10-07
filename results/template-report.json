@@ -1,0 +1,38 @@
+[
+  {
+    "case": 0,
+    "enable_thinking": false,
+    "tokens": 14,
+    "equal": true
+  },
+  {
+    "case": 0,
+    "enable_thinking": true,
+    "tokens": 10,
+    "equal": true
+  },
+  {
+    "case": 1,
+    "enable_thinking": false,
+    "tokens": 37,
+    "equal": true
+  },
+  {
+    "case": 1,
+    "enable_thinking": true,
+    "tokens": 33,
+    "equal": true
+  },
+  {
+    "case": 2,
+    "enable_thinking": false,
+    "tokens": 29,
+    "equal": true
+  },
+  {
+    "case": 2,
+    "enable_thinking": true,
+    "tokens": 25,
+    "equal": true
+  }
+]

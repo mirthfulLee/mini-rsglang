@@ -1,0 +1,4 @@
+tensor parallel devices=[0, 1], NCCL=22703
+2026-10-06T17:05:27.281815Z  INFO mini_rsglang: serving on http://127.0.0.1:18789 model=Qwen3-0.6B pages=73
+tensor parallel devices=[0, 1], NCCL=22703
+2026-10-06T17:06:05.453121Z  INFO mini_rsglang: serving on http://127.0.0.1:18789 model=Qwen3-0.6B pages=9

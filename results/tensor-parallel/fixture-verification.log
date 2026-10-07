@@ -1,0 +1,51 @@
+exported 3 batched sequences, prefill plus 3 decode steps
+dense TP=1 full: exported and compared
+exported 3 batched sequences, prefill plus 3 decode steps
+dense TP=1 chunked: exported and compared
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+dense TP=2 full: exported and compared
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+dense TP=2 chunked: exported and compared
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+dense TP=4 full: exported and compared
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+dense TP=4 chunked: exported and compared
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+dense TP=8 full: exported and compared
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+dense TP=8 chunked: exported and compared
+exported 3 batched sequences, prefill plus 3 decode steps
+moe TP=1 full: exported and compared
+exported 3 batched sequences, prefill plus 3 decode steps
+moe TP=1 chunked: exported and compared
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+moe TP=2 full: exported and compared
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+moe TP=2 chunked: exported and compared
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+moe TP=4 full: exported and compared
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+moe TP=4 chunked: exported and compared
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+moe TP=8 full: exported and compared
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+moe TP=8 chunked: exported and compared
+{
+  "comparisons": 192,
+  "max_nrmse": 0.005152278086492409,
+  "min_cosine": 0.9999898686634004,
+  "top1_matches": 192,
+  "failures": 0
+}

@@ -1,0 +1,459 @@
+[1m[2026-10-06|15:51:29][0m [32mINFO    [0m Parsed arguments:
+ServerArgs(model_path='/models/store/Qwen/Qwen3-0.6B', tp_info=DistributedInfo(rank=0, size=8), dtype=torch.bfloat16, max_running_req=32, attention_backend='fi', moe_backend='auto', cuda_graph_bs=None, cuda_graph_max_bs=0, page_size=16, memory_ratio=0.9, distributed_timeout=60.0, use_dummy_weight=False, use_pynccl=False, max_seq_len_override=4096, num_page_override=9362, max_extend_tokens=512, cache_type='naive', offline_mode=False, _unique_suffix='.pid=1654807', server_host='127.0.0.1', server_port=19673, num_tokenizer=0, silent_output=False)
+[1m[2026-10-06|15:51:33|initializer][0m [32mINFO    [0m Tokenize server 0 is ready
+[Gloo] Rank 0 is connected to 7 peer ranks. Expected number of connected peer ranks is : 7
+[Gloo] Rank 1 is connected to 7 peer ranks. Expected number of connected peer ranks is : 7
+[Gloo] Rank 2 is connected to 7 peer ranks. Expected number of connected peer ranks is : 7
+[Gloo] Rank 3 is connected to 7 peer ranks. Expected number of connected peer ranks is : 7
+[Gloo] Rank 4 is connected to 7 peer ranks. Expected number of connected peer ranks is : 7
+[Gloo] Rank 7 is connected to 7 peer ranks. Expected number of connected peer ranks is : 7
+[Gloo] Rank 6 is connected to 7 peer ranks. Expected number of connected peer ranks is : 7
+[Gloo] Rank 5 is connected to 7 peer ranks. Expected number of connected peer ranks is : 7
+[1m[2026-10-06|15:51:36|core|rank=0][0m [32mINFO    [0m Free memory before loading model: 78.82 GiB
+Loading weights:   0%|          | 0/1 [00:00<?, ?it/s]Loading weights: 100%|██████████| 1/1 [00:00<00:00,  1.41it/s]Loading weights: 100%|██████████| 1/1 [00:00<00:00,  1.41it/s]
+[1m[2026-10-06|15:51:38|core|rank=0][0m [32mINFO    [0m Allocating 149792 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:51:38|core|rank=6][0m [32mINFO    [0m Allocating 149792 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:51:38|core|rank=7][0m [32mINFO    [0m Allocating 149792 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:51:38|core|rank=5][0m [32mINFO    [0m Allocating 149792 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:51:38|core|rank=4][0m [32mINFO    [0m Allocating 149792 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:51:38|core|rank=3][0m [32mINFO    [0m Allocating 149792 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:51:38|core|rank=2][0m [32mINFO    [0m Allocating 149792 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:51:38|core|rank=1][0m [32mINFO    [0m Allocating 149792 tokens for KV cache, K + V = 2.00 GiB
+[1m[2026-10-06|15:51:38|core|rank=0][0m [32mINFO    [0m Free memory after initialization: 76.19 GiB
+[1m[2026-10-06|15:51:38|core|rank=0][0m [32mINFO    [0m CUDA graph is disabled.
+[1m[2026-10-06|15:51:39|core|rank=0][0m [32mINFO    [0m Scheduler is idle, waiting for new reqs...
+[1m[2026-10-06|15:51:39|initializer][0m [32mINFO    [0m Scheduler is ready
+[1m[2026-10-06|15:51:39|FrontendAPI][0m [32mINFO    [0m API server is ready to serve on 127.0.0.1:19673
+INFO:     Started server process [1654807]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:19673 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50326 - "GET /v1/models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50340 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[rank7]:[W1006 15:52:39.328176811 socket.cpp:460] [c10d] waitForInput: poll for socket SocketImpl(fd=98, addr=[localhost]:37266, remote=[localhost]:19674) returned 0, likely a timeout
+[rank7]:[W1006 15:52:39.329182624 socket.cpp:485] [c10d] waitForInput: socket SocketImpl(fd=98, addr=[localhost]:37266, remote=[localhost]:19674) timed out after 60000ms
+Process minisgl-TP7-scheduler:
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 116, in normal_loop
+    ongoing_data = (forward_input, self._forward(forward_input))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 230, in _forward
+    forward_output = self.engine.forward_batch(batch, sample_args)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/engine/engine.py", line 197, in forward_batch
+    logits = self.model.forward()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/models/qwen3.py", line 78, in forward
+    output = self.model.forward(get_global_ctx().batch.input_ids)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/models/qwen3.py", line 59, in forward
+    x = self.embed_tokens.forward(input_ids)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/utils/torch_utils.py", line 33, in wrapper
+    return fn(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/layers/embedding.py", line 42, in forward
+    return self._comm.all_reduce(y) if self.tp_size > 1 else y
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/distributed/impl.py", line 67, in all_reduce
+    return self.plugins[-1].all_reduce(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/distributed/impl.py", line 30, in all_reduce
+    dist.all_reduce(x, op=dist.ReduceOp.SUM)
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/distributed/c10d_logger.py", line 81, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/distributed/distributed_c10d.py", line 2924, in all_reduce
+    work = group.allreduce([tensor], opts)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.distributed.DistBackendError: [7] is setting up NCCL communicator and retrieving ncclUniqueId from [0] via c10d key-value store by key '0', but store->get('0') got error: wait timeout after 60000ms, keys: /default_pg/0//cuda//0
+Exception raised from doWait at /pytorch/torch/csrc/distributed/c10d/TCPStore.cpp:597 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7f8800d7eeb0 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5cd03a1 (0x7f87e9b433a1 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x1361e6c (0x7f87e51d4e6c in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x33 (0x7f87e9bdb003 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x114 (0x7f87e9bdc114 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::PrefixStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x30 (0x7f87e9b8a720 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #6: c10d::PrefixStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x30 (0x7f87e9b8a720 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #7: c10d::PrefixStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x30 (0x7f87e9b8a720 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #8: c10d::ProcessGroupNCCL::broadcastUniqueNCCLID(ncclUniqueId*, bool, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int) + 0x5c4 (0x7f87abcfa184 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #9: c10d::ProcessGroupNCCL::initNCCLComm(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, c10::Device&, c10d::OpType, int, bool) + 0x1bba (0x7f87abcfcc2a in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #10: <unknown function> + 0x134275f (0x7f87abd0275f in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #11: c10d::ProcessGroupNCCL::allreduce_impl(at::Tensor&, char const*, c10d::AllreduceOptions const&) + 0xc2 (0x7f87abd02fd2 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #12: c10d::ProcessGroupNCCL::allreduce(std::vector<at::Tensor, std::allocator<at::Tensor> >&, c10d::AllreduceOptions const&) + 0x709 (0x7f87abd03729 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #13: <unknown function> + 0x5d07941 (0x7f87e9b7a941 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #14: <unknown function> + 0x5d0ef8a (0x7f87e9b81f8a in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #15: <unknown function> + 0x5d30bc9 (0x7f87e9ba3bc9 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #16: <unknown function> + 0xca3468 (0x7f87f8fce468 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_python.so)
+frame #17: <unknown function> + 0x3838b0 (0x7f87f86ae8b0 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_python.so)
+frame #18: <unknown function> + 0x342695 (0x56145a9b9695 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #19: _PyEval_EvalFrameDefault + 0x268cc (0x56145aa29dcc in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #20: _PyFunction_Vectorcall + 0x1d9 (0x56145a98c489 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #21: _PyEval_EvalFrameDefault + 0x3d704 (0x56145aa40c04 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #22: _PyFunction_Vectorcall + 0x1d9 (0x56145a98c489 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #23: _PyEval_EvalFrameDefault + 0x3bbd8 (0x56145aa3f0d8 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #24: _PyFunction_Vectorcall + 0x1d9 (0x56145a98c489 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #25: _PyEval_EvalFrameDefault + 0x3bbd8 (0x56145aa3f0d8 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #26: _PyFunction_Vectorcall + 0x1d9 (0x56145a98c489 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #27: _PyEval_EvalFrameDefault + 0x3bbd8 (0x56145aa3f0d8 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #28: <unknown function> + 0x38a0b6 (0x56145aa010b6 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #29: <unknown function> + 0x500286 (0x56145ab77286 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #30: PyRun_SimpleStringFlags + 0x95 (0x56145ab77745 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #31: Py_RunMain + 0x4d4 (0x56145ab824a4 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #32: <unknown function> + 0x50bcdd (0x56145ab82cdd in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #33: <unknown function> + 0x43717c (0x56145aaae17c in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #34: <unknown function> + 0x29d90 (0x7f8801c9ad90 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #35: __libc_start_main + 0x80 (0x7f8801c9ae40 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #36: <unknown function> + 0x43708d (0x56145aaae08d in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+. This may indicate a possible application crash on rank 0 or a network set up issue.
+[rank3]:[W1006 15:52:39.512178616 socket.cpp:460] [c10d] waitForInput: poll for socket SocketImpl(fd=97, addr=[localhost]:37302, remote=[localhost]:19674) returned 0, likely a timeout
+[rank3]:[W1006 15:52:39.515611314 socket.cpp:485] [c10d] waitForInput: socket SocketImpl(fd=97, addr=[localhost]:37302, remote=[localhost]:19674) timed out after 60000ms
+Process minisgl-TP3-scheduler:
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 116, in normal_loop
+    ongoing_data = (forward_input, self._forward(forward_input))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 230, in _forward
+    forward_output = self.engine.forward_batch(batch, sample_args)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/engine/engine.py", line 197, in forward_batch
+    logits = self.model.forward()
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/models/qwen3.py", line 78, in forward
+    output = self.model.forward(get_global_ctx().batch.input_ids)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/models/qwen3.py", line 59, in forward
+    x = self.embed_tokens.forward(input_ids)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/utils/torch_utils.py", line 33, in wrapper
+    return fn(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/layers/embedding.py", line 42, in forward
+    return self._comm.all_reduce(y) if self.tp_size > 1 else y
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/distributed/impl.py", line 67, in all_reduce
+    return self.plugins[-1].all_reduce(x)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/distributed/impl.py", line 30, in all_reduce
+    dist.all_reduce(x, op=dist.ReduceOp.SUM)
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/distributed/c10d_logger.py", line 81, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/distributed/distributed_c10d.py", line 2924, in all_reduce
+    work = group.allreduce([tensor], opts)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.distributed.DistBackendError: [3] is setting up NCCL communicator and retrieving ncclUniqueId from [0] via c10d key-value store by key '0', but store->get('0') got error: wait timeout after 60000ms, keys: /default_pg/0//cuda//0
+Exception raised from doWait at /pytorch/torch/csrc/distributed/c10d/TCPStore.cpp:597 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7fd3de97eeb0 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5cd03a1 (0x7fd3c77433a1 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x1361e6c (0x7fd3c2dd4e6c in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: c10d::TCPStore::doGet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x33 (0x7fd3c77db003 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x114 (0x7fd3c77dc114 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::PrefixStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x30 (0x7fd3c778a720 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #6: c10d::PrefixStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x30 (0x7fd3c778a720 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #7: c10d::PrefixStore::get(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) + 0x30 (0x7fd3c778a720 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #8: c10d::ProcessGroupNCCL::broadcastUniqueNCCLID(ncclUniqueId*, bool, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int) + 0x5c4 (0x7fd3898fa184 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #9: c10d::ProcessGroupNCCL::initNCCLComm(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, c10::Device&, c10d::OpType, int, bool) + 0x1bba (0x7fd3898fcc2a in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #10: <unknown function> + 0x134275f (0x7fd38990275f in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #11: c10d::ProcessGroupNCCL::allreduce_impl(at::Tensor&, char const*, c10d::AllreduceOptions const&) + 0xc2 (0x7fd389902fd2 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #12: c10d::ProcessGroupNCCL::allreduce(std::vector<at::Tensor, std::allocator<at::Tensor> >&, c10d::AllreduceOptions const&) + 0x709 (0x7fd389903729 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #13: <unknown function> + 0x5d07941 (0x7fd3c777a941 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #14: <unknown function> + 0x5d0ef8a (0x7fd3c7781f8a in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #15: <unknown function> + 0x5d30bc9 (0x7fd3c77a3bc9 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #16: <unknown function> + 0xca3468 (0x7fd3d6bce468 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_python.so)
+frame #17: <unknown function> + 0x3838b0 (0x7fd3d62ae8b0 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_python.so)
+frame #18: <unknown function> + 0x342695 (0x55758e617695 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #19: _PyEval_EvalFrameDefault + 0x268cc (0x55758e687dcc in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #20: _PyFunction_Vectorcall + 0x1d9 (0x55758e5ea489 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #21: _PyEval_EvalFrameDefault + 0x3d704 (0x55758e69ec04 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #22: _PyFunction_Vectorcall + 0x1d9 (0x55758e5ea489 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #23: _PyEval_EvalFrameDefault + 0x3bbd8 (0x55758e69d0d8 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #24: _PyFunction_Vectorcall + 0x1d9 (0x55758e5ea489 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #25: _PyEval_EvalFrameDefault + 0x3bbd8 (0x55758e69d0d8 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #26: _PyFunction_Vectorcall + 0x1d9 (0x55758e5ea489 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #27: _PyEval_EvalFrameDefault + 0x3bbd8 (0x55758e69d0d8 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #28: <unknown function> + 0x38a0b6 (0x55758e65f0b6 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #29: <unknown function> + 0x500286 (0x55758e7d5286 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #30: PyRun_SimpleStringFlags + 0x95 (0x55758e7d5745 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #31: Py_RunMain + 0x4d4 (0x55758e7e04a4 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #32: <unknown function> + 0x50bcdd (0x55758e7e0cdd in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #33: <unknown function> + 0x43717c (0x55758e70c17c in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+frame #34: <unknown function> + 0x29d90 (0x7fd3df866d90 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #35: __libc_start_main + 0x80 (0x7fd3df866e40 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #36: <unknown function> + 0x43708d (0x55758e70c08d in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/bin/python)
+. This may indicate a possible application crash on rank 0 or a network set up issue.
+Process minisgl-TP4-scheduler:
+Process minisgl-TP2-scheduler:
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 110, in normal_loop
+    for msg in self.receive_msg(blocking=blocking):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 113, in _recv_msg_multi_rank1
+    pending_msgs.append(self._recv_from_rank0.get())
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/utils/mp.py", line 143, in get
+    event = self.socket.recv()
+            ^^^^^^^^^^^^^^^^^^
+  File "zmq/backend/cython/_zmq.py", line 1218, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1253, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1408, in zmq.backend.cython._zmq._recv_copy
+  File "zmq/backend/cython/_zmq.py", line 179, in zmq.backend.cython._zmq._check_rc
+KeyboardInterrupt
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 110, in normal_loop
+    for msg in self.receive_msg(blocking=blocking):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 113, in _recv_msg_multi_rank1
+    pending_msgs.append(self._recv_from_rank0.get())
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+During handling of the above exception, another exception occurred:
+
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/utils/mp.py", line 143, in get
+    event = self.socket.recv()
+            ^^^^^^^^^^^^^^^^^^
+Traceback (most recent call last):
+  File "zmq/backend/cython/_zmq.py", line 1218, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1253, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1408, in zmq.backend.cython._zmq._recv_copy
+  File "zmq/backend/cython/_zmq.py", line 179, in zmq.backend.cython._zmq._check_rc
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 37, in _run_scheduler
+    scheduler.shutdown()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 135, in shutdown
+    self.sync_all_ranks()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 77, in sync_all_ranks
+    self.tp_cpu_group.barrier().wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.0.1]:32985
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 37, in _run_scheduler
+    scheduler.shutdown()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 135, in shutdown
+    self.sync_all_ranks()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 77, in sync_all_ranks
+    self.tp_cpu_group.barrier().wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.1.1]:29099
+INFO:     Shutting down
+[1m[2026-10-06|15:53:39|FrontendAPI][0m [33mWARNING [0m Aborting request for user 0
+INFO:     Waiting for application shutdown.
+
+[1m[2026-10-06|15:53:40|core|rank=0][0m [32mINFO    [0m Scheduler exiting gracefully...
+Process minisgl-TP0-scheduler:
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 110, in normal_loop
+    for msg in self.receive_msg(blocking=blocking):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 102, in _recv_msg_multi_rank0
+    self.tp_cpu_group.broadcast(src_tensor, root=0).wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.1.1]:20372
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 123, in run_forever
+    with self.engine_stream_ctx:
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/cuda/__init__.py", line 678, in __exit__
+    def __exit__(self, type: Any, value: Any, traceback: Any):
+    
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 37, in _run_scheduler
+    scheduler.shutdown()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 135, in shutdown
+    self.sync_all_ranks()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 77, in sync_all_ranks
+    self.tp_cpu_group.barrier().wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.1.1]:56727
+Process minisgl-TP5-scheduler:
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 110, in normal_loop
+    for msg in self.receive_msg(blocking=blocking):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 113, in _recv_msg_multi_rank1
+    pending_msgs.append(self._recv_from_rank0.get())
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/utils/mp.py", line 143, in get
+    event = self.socket.recv()
+            ^^^^^^^^^^^^^^^^^^
+  File "zmq/backend/cython/_zmq.py", line 1218, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1253, in zmq.backend.cython._zmq.Socket.recv
+  File "zmq/backend/cython/_zmq.py", line 1408, in zmq.backend.cython._zmq._recv_copy
+  File "zmq/backend/cython/_zmq.py", line 179, in zmq.backend.cython._zmq._check_rc
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 37, in _run_scheduler
+    scheduler.shutdown()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 135, in shutdown
+    self.sync_all_ranks()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 77, in sync_all_ranks
+    self.tp_cpu_group.barrier().wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.1.1]:20372
+Process minisgl-TP6-scheduler:
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 110, in normal_loop
+    for msg in self.receive_msg(blocking=blocking):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 117, in _recv_msg_multi_rank1
+    self.tp_cpu_group.broadcast(dst_tensor, root=0).wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.0.1]:63622
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 123, in run_forever
+    with self.engine_stream_ctx:
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/cuda/__init__.py", line 678, in __exit__
+    def __exit__(self, type: Any, value: Any, traceback: Any):
+    
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 37, in _run_scheduler
+    scheduler.shutdown()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 135, in shutdown
+    self.sync_all_ranks()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 77, in sync_all_ranks
+    self.tp_cpu_group.barrier().wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.0.1]:65158
+Process minisgl-TP1-scheduler:
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 126, in run_forever
+    self.normal_loop()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 110, in normal_loop
+    for msg in self.receive_msg(blocking=blocking):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 117, in _recv_msg_multi_rank1
+    self.tp_cpu_group.broadcast(dst_tensor, root=0).wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.0.1]:13506
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 31, in _run_scheduler
+    scheduler.run_forever()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 123, in run_forever
+    with self.engine_stream_ctx:
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/cuda/__init__.py", line 678, in __exit__
+    def __exit__(self, type: Any, value: Any, traceback: Any):
+    
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/home/huanli/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/server/launch.py", line 37, in _run_scheduler
+    scheduler.shutdown()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/scheduler.py", line 135, in shutdown
+    self.sync_all_ranks()
+  File "/data1/huanli/projects/llm-inference/mini-sglang/python/minisgl/scheduler/io.py", line 77, in sync_all_ranks
+    self.tp_cpu_group.barrier().wait()
+RuntimeError: [/pytorch/third_party/gloo/gloo/transport/tcp/pair.cc:544] Connection closed by peer [127.0.0.1]:6338
+[rank0]:[W1006 15:53:40.103889161 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank1]:[W1006 15:53:40.271292093 TCPStore.cpp:125] [c10d] recvValue failed on SocketImpl(fd=97, addr=[localhost]:37288, remote=[localhost]:19674): Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?
+Exception raised from recvBytes at /pytorch/torch/csrc/distributed/c10d/Utils.hpp:682 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7fa300cd9eb0 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x5d694f1 (0x7fa2e9bdc4f1 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #2: <unknown function> + 0x5d6a8ed (0x7fa2e9bdd8ed in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #3: <unknown function> + 0x5d6b49a (0x7fa2e9bde49a in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #4: c10d::TCPStore::check(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&) + 0x31e (0x7fa2e9bd91be in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cpu.so)
+frame #5: c10d::ProcessGroupNCCL::HeartbeatMonitor::runLoop() + 0x398 (0x7fa2abcf20c8 in /data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/torch/lib/libtorch_cuda.so)
+frame #6: <unknown function> + 0xdc253 (0x7fa28f068253 in /lib/x86_64-linux-gnu/libstdc++.so.6)
+frame #7: <unknown function> + 0x94ac3 (0x7fa301c2fac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #8: <unknown function> + 0x1268c0 (0x7fa301cc18c0 in /lib/x86_64-linux-gnu/libc.so.6)
+
+[rank1]:[W1006 15:53:40.280412065 ProcessGroupNCCL.cpp:1783] [PG ID 0 PG GUID 0 Rank 1] Failed to check the "should dump" flag on TCPStore, (maybe TCPStore server has shut down too early), with error: Failed to recv, got 0 bytes. Connection was likely closed. Did the remote server shutdown or crash?

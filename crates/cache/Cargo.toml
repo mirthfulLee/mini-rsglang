@@ -1,0 +1,8 @@
+[package]
+name = "rsglang-cache"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+rsglang-core.workspace = true

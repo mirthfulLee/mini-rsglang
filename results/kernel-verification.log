@@ -1,0 +1,50 @@
+   Compiling rsglang-kernels v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/kernels)
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.68s
+     Running `target/release/examples/verify_ops /data1/huanli/projects/llm-inference/mini-rsglang/results/kernels/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/kernels/output.json`
+GPU operator fixture exported
+{
+  "norm": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "linear": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "logits": {
+    "max_abs_error": 3.5762786865234375e-07,
+    "nrmse": 2.9090235997841773e-08
+  },
+  "add": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "swiglu": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "embedding": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "rope": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "kc": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "vc": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "last": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "attention": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  }
+}

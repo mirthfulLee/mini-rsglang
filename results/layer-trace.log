@@ -1,0 +1,96 @@
+   Compiling rsglang-engine v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/engine)
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.85s
+     Running `target/release/examples/trace /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/layer-trace/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/layer-trace/rust`
+[
+  {
+    "layer": "embedding",
+    "elements": 23552,
+    "different_elements": 0,
+    "nrmse": 0.0,
+    "max_abs_error": 0.0
+  },
+  {
+    "layer": "layer0-input_norm",
+    "elements": 23552,
+    "different_elements": 0,
+    "nrmse": 0.0,
+    "max_abs_error": 0.0
+  },
+  {
+    "layer": "layer0-q_proj",
+    "elements": 47104,
+    "different_elements": 0,
+    "nrmse": 0.0,
+    "max_abs_error": 0.0
+  },
+  {
+    "layer": "layer0-q_norm",
+    "elements": 47104,
+    "different_elements": 0,
+    "nrmse": 0.0,
+    "max_abs_error": 0.0
+  },
+  {
+    "layer": "layer0-v_proj",
+    "elements": 23552,
+    "different_elements": 0,
+    "nrmse": 0.0,
+    "max_abs_error": 0.0
+  },
+  {
+    "layer": "layer0-q_rope",
+    "elements": 47104,
+    "different_elements": 0,
+    "nrmse": 0.0,
+    "max_abs_error": 0.0
+  },
+  {
+    "layer": "layer0-k_rope",
+    "elements": 23552,
+    "different_elements": 0,
+    "nrmse": 0.0,
+    "max_abs_error": 0.0
+  },
+  {
+    "layer": "layer0-attn",
+    "elements": 47104,
+    "different_elements": 29,
+    "nrmse": 1.6859916973205598e-05,
+    "max_abs_error": 0.000244140625
+  },
+  {
+    "layer": "layer0-swiglu",
+    "elements": 70656,
+    "different_elements": 2821,
+    "nrmse": 0.0005033962707208583,
+    "max_abs_error": 0.0078125
+  },
+  {
+    "layer": "layer0-output",
+    "elements": 23552,
+    "different_elements": 1146,
+    "nrmse": 0.0007993975501871232,
+    "max_abs_error": 0.0078125
+  },
+  {
+    "layer": "layer1-input_norm",
+    "elements": 23552,
+    "different_elements": 1144,
+    "nrmse": 0.000927709857901163,
+    "max_abs_error": 0.00390625
+  },
+  {
+    "layer": "layer1-q_proj",
+    "elements": 47104,
+    "different_elements": 5319,
+    "nrmse": 0.0012207714372708658,
+    "max_abs_error": 0.0078125
+  },
+  {
+    "layer": "final_norm",
+    "elements": 23552,
+    "different_elements": 20395,
+    "nrmse": 0.021784993216939132,
+    "max_abs_error": 1.4375
+  }
+]

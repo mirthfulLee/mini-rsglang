@@ -1,0 +1,5 @@
+   Compiling rsglang-runtime v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/runtime)
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.97s
+     Running `target/release/examples/generate`
+Rust is a system of ownership that ensures memory safety and prevents memory leaks.
+Stop

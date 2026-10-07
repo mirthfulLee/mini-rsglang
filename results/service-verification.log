@@ -1,0 +1,87 @@
+{
+  "chinese_stream_and_prefix_cache": {
+    "text": "Rust 的所有权是指内存中的数据所有权，通过 `所有权`（ownership）机制来管理，确保内存",
+    "usage": {
+      "completion_tokens": 24,
+      "prompt_tokens": 21,
+      "prompt_tokens_details": {
+        "cached_tokens": 16
+      },
+      "total_tokens": 45
+    },
+    "finish_reason": "length"
+  },
+  "eos_termination": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "1",
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1791286582,
+    "id": "chatcmpl-3",
+    "model": "Qwen3-0.6B",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 2,
+      "prompt_tokens": 20,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 22
+    }
+  },
+  "text_and_token_ids_equal": true,
+  "mixed_length_batch_equal": true,
+  "seeded_sampling_equal": true,
+  "invalid_requests_rejected": true,
+  "disconnect_cancelled": true,
+  "queue_capacity_statuses": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429
+  ],
+  "idle_page_conservation": {
+    "cached_pages": 15,
+    "cached_tokens": 16,
+    "cancelled": 1,
+    "completed": 22,
+    "decode_batches": 1372,
+    "failed": 0,
+    "free_pages": 21,
+    "generated_tokens": 2666,
+    "healthy": 1,
+    "peak_memory_bytes": 1783627776,
+    "prefill_batches": 28,
+    "prompt_tokens": 290,
+    "running": 0,
+    "submitted": 23,
+    "waiting": 0
+  },
+  "impossible_request_rejected": true
+}

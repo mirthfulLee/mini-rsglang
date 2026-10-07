@@ -1,0 +1,17 @@
+[package]
+name = "rsglang-runtime"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+rsglang-core.workspace = true
+rsglang-cache.workspace = true
+rsglang-engine.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+tokenizers = { version = "0.22", default-features = false, features = ["onig"] }
+minijinja = { version = "2", features = ["loader", "json", "loop_controls", "builtins"] }
+minijinja-contrib = { version = "2", features = ["pycompat"] }
+tracing.workspace = true

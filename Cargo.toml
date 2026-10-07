@@ -1,0 +1,36 @@
+[workspace]
+members = [
+    "crates/core",
+    "crates/distributed",
+    "crates/kernels",
+    "crates/models",
+    "crates/cache",
+    "crates/engine",
+    "crates/runtime",
+    "crates/server",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[workspace.dependencies]
+rsglang-core = { path = "crates/core" }
+rsglang-distributed = { path = "crates/distributed" }
+rsglang-kernels = { path = "crates/kernels" }
+rsglang-models = { path = "crates/models" }
+rsglang-cache = { path = "crates/cache" }
+rsglang-engine = { path = "crates/engine" }
+rsglang-runtime = { path = "crates/runtime" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+half = { version = "2", features = ["bytemuck"] }
+cudarc = { version = "=0.19.10", default-features = false, features = ["std", "driver", "nvrtc", "cublas", "dynamic-loading", "cuda-12060", "nccl-02027", "f16"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "signal", "net", "time"] }
+tracing = "0.1"
+
+[profile.release]
+debug = 1

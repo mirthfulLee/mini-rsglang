@@ -1,0 +1,105 @@
+{
+  "time_utc": "2026-10-06T17:05:51.416232+00:00",
+  "platform": "Linux-5.15.0-160-generic-x86_64-with-glibc2.35",
+  "cuda": "12.6",
+  "nccl": "2.27.3",
+  "nccl_library": "/data1/huanli/projects/llm-inference/mini-rsglang/.venv-verify/lib/python3.11/site-packages/nvidia/nccl/lib/libnccl.so.2",
+  "nccl_p2p_level": "NVL",
+  "gemm_token_rows": 32,
+  "source_sha256": {
+    "crates/cache/src/lib.rs": "c9b4c0fc1f7986ff027146ac90df8fa9cef38e5db3832aa875776a6f55d50bd1",
+    "crates/runtime/src/lib.rs": "91faef743c92966ad3a95d5deffe8d5802b1ccd7150900afae79e461fef64645",
+    "crates/runtime/src/tokenizer.rs": "98de7ba9f3dd18b5c0c23a1c4356a9feaf02090dd137d7e166eb12530155bcfa",
+    "crates/runtime/src/scheduler.rs": "cd81a0e57f54eb439e059a9f27f1851aa466ad1bb0ca47a9d9895768f0b9551e",
+    "crates/runtime/src/metrics.rs": "2dcd41133da99a589dfedf7bc1582a62aeee1f229cd74678a785c903eccd58da",
+    "crates/runtime/examples/template.rs": "7164f398a37e2e7903935839fac1bdc0274c9526d320f94f16538e53e4e42d60",
+    "crates/runtime/examples/generate.rs": "8a2118f2b4c2365bf1033a7effe90fdc474b06f49e244e5ef0a5ba4fb4a8f639",
+    "crates/engine/src/lib.rs": "a2203e24523f98c89f929c5a9e3c28f46906db9b37f0015ba703f2b67e8a8452",
+    "crates/engine/src/parallel.rs": "0a7ba0aa6cfb699b36601a20d53fa565af1ccbeb8f6b6e27544cf0518e66f2d0",
+    "crates/engine/examples/forward.rs": "c8c592c577770e33c2e2c0473cb79ecc1b96553f8cdb54cb19a49985014f5e2f",
+    "crates/engine/examples/trace.rs": "61719392da9495de65a2cfe91c5f04477a817934a8f3a8f6ee13a15702f7bae7",
+    "crates/core/src/lib.rs": "1be9a6c3dd8277f0138f723e5f2ca2785d7b977c1429e3fd6ede8bbe2528a49d",
+    "crates/models/src/lib.rs": "63ce4c7a03bae394c2b23ba1e885f619a9f79329dce2068da70eb0280eb9fc35",
+    "crates/kernels/src/collective.rs": "2a2dd8aae2bd16bae66ebeb5d31a13d6ae481c96fc5c05c758c7882e396f97d5",
+    "crates/kernels/src/lib.rs": "3b3d7608f332ee9d47225c7a8a7ccda52c590b37d893cf5c88388437cc9c05e3",
+    "crates/kernels/src/nccl_api.rs": "b1d94da46a9844421d901adf1719daacb1647e5ee5eac1a75acea39314924b3f",
+    "crates/kernels/src/parallel_ops.rs": "eabe0e4698ae70d82f2de49cf739e9d8dbd468ee43b169dab666bbd296b98d62",
+    "crates/kernels/examples/verify_ops.rs": "d1d234bdb641e1292098f2f098a26f7271e9f44f4432697e0d7f9317215843be",
+    "crates/kernels/examples/collectives.rs": "9b4e6241626e9e8f3fd2ccbb56d2e9c817f87ac01d51f887f4293d11bb51d79a",
+    "crates/kernels/examples/smoke.rs": "3b50753bc032966f0a57bd32a8f4652c3d30952c99e73fa8bf54582bcffda0a5",
+    "crates/server/src/api.rs": "6376eabf40111b532204e2e1780d201494a44c751d7ac529b667b5581a93f7eb",
+    "crates/server/src/bench.rs": "1c3a973aa8f57a2d71561e62f2913c94b523d808bf6a6cf025b73c16fdaddcaa",
+    "crates/server/src/main.rs": "5cc14d5746b1fddaa16e982942fa0aff27ec11a59044d32dedeec578975a38f6",
+    "crates/distributed/src/lib.rs": "89dfc41a5b270bc6d6519aecdd458840276fefcbecfa4eff54cdee0a2c7a39b0",
+    "crates/distributed/src/group.rs": "a298c1b30aa2f828759d627022a1790ce60ff38a173ce62d0100b9a5a9352890",
+    "crates/kernels/src/ops.cu": "3001d8c41753b8739d4fb6de305d6504e049ea29c329d838944638270570c5cc",
+    "crates/cache/Cargo.toml": "e142c4f9de815deb1f969f6930d8489765a3d76675fe8c4b62e5eb184ff770a4",
+    "crates/runtime/Cargo.toml": "ed0e606954ee19bf4b34e4e24881c3369023398b106e653daede5f794f5894e6",
+    "crates/engine/Cargo.toml": "107cc16f309c0c31a05fc04dbdb4bbb5a5671bd49f006e02868a23b2bb25d051",
+    "crates/core/Cargo.toml": "7c75a3faeae495fd78ddbc42a200a612571f897c6818d479ec371cff49f38774",
+    "crates/models/Cargo.toml": "285e8ad352830ece8758843a88b8a3cbaeb4a56ee2c67f3e2d138aad0547bf90",
+    "crates/kernels/Cargo.toml": "90e469f664049a93c813cf2fc8ea815399bf95158c9ef18ac8956f609c5d2781",
+    "crates/server/Cargo.toml": "4c31b276e810aeb83bcd4f7f7f587423b1f580bdf8b8e0f4d4a78c5f1f6af4ad",
+    "crates/distributed/Cargo.toml": "f3c23e056b4179ab4d48bc3fa225698dcfc905b9e1c71ae41aa77b83f8478e8b",
+    "scripts/verify_tensor_parallel.py": "85abd4667bf94cef87853b19414591795e69a4702bc5903bac4ad08d74793540",
+    "scripts/verify_model.py": "735387fcf36623f3f4e55a236fcdd56c4940d42510d84188a0a3cbb9584304c0",
+    "scripts/verify_template.py": "908280a1a25bd8a27b7898c9aaa7628a17db8413d34858193e6b38160b81d61a",
+    "scripts/verify_trace.py": "d223d8757c3447f9319e4b9fae8e9dde82239c9f2f0749419667a520b1103675",
+    "scripts/compare_mini.py": "286700e633823e9e2183e1a95d500822c4f49512c694f589c9fa7ebb3672071b",
+    "scripts/verify_kernels.py": "90020c477dcef9daba3b183f831ce1fd0e42f953ff70f5cfbb8204ace08b3e9a",
+    "scripts/verify_service.py": "36781e16b2311b3d0caa7bb6ce628b0b43e28030e5f377ecf1108ca56fabc158",
+    "Cargo.toml": "9f14c259e2b1f9beee2a3436402c4af09cdc999ba7edef3fc873d2f0dc337ee6",
+    "Cargo.lock": "cdded77826dc19fddb87c399be3d2b3519f6c6512b9969fd8b96f5c492491875",
+    "rust-toolchain.toml": "2ad6f15416572b4836585087f1d4abc53b8fa2dbd616f8dacfaa587ed6714228"
+  },
+  "gpu_info": "index, uuid, name, driver_version, memory.total [MiB]\n0, GPU-6bc82229-d685-fa35-612d-1a96adbc4ac1, NVIDIA A100-SXM4-80GB, 560.35.03, 81920 MiB\n1, GPU-670e6f2b-6e1d-7345-f0df-8d389e1f49d4, NVIDIA A100-SXM4-80GB, 560.35.03, 81920 MiB\n2, GPU-b5a2b4bd-0ddc-9476-aa20-312448814999, NVIDIA A100-SXM4-80GB, 560.35.03, 81920 MiB\n3, GPU-ba3fe245-4101-7cd9-dd5c-6c10fb4e00f2, NVIDIA A100-SXM4-80GB, 560.35.03, 81920 MiB\n4, GPU-b86d714d-966b-55a5-3083-10da1ba26730, NVIDIA A100-SXM4-80GB, 560.35.03, 81920 MiB\n5, GPU-d6dee6eb-8856-13ed-dd0d-3f342a8f3aec, NVIDIA A100-SXM4-80GB, 560.35.03, 81920 MiB\n6, GPU-35758790-e888-bc8c-0bfc-f308aa7ebb75, NVIDIA A100-SXM4-80GB, 560.35.03, 81920 MiB\n7, GPU-7a63b2d2-2b10-09d2-eeb4-fac3d0108ac9, NVIDIA A100-SXM4-80GB, 560.35.03, 81920 MiB\n",
+  "topology": "\t\u001b[4mGPU0\tGPU1\tGPU2\tGPU3\tGPU4\tGPU5\tGPU6\tGPU7\tNIC0\tNIC1\tCPU Affinity\tNUMA Affinity\tGPU NUMA ID\u001b[0m\nGPU0\t X \tNV12\tPXB\tPXB\tSYS\tSYS\tSYS\tSYS\tSYS\tSYS\t0-31,64-95\t0\t\tN/A\nGPU1\tNV12\t X \tPXB\tPXB\tSYS\tSYS\tSYS\tSYS\tSYS\tSYS\t0-31,64-95\t0\t\tN/A\nGPU2\tPXB\tPXB\t X \tNV12\tSYS\tSYS\tSYS\tSYS\tSYS\tSYS\t0-31,64-95\t0\t\tN/A\nGPU3\tPXB\tPXB\tNV12\t X \tSYS\tSYS\tSYS\tSYS\tSYS\tSYS\t0-31,64-95\t0\t\tN/A\nGPU4\tSYS\tSYS\tSYS\tSYS\t X \tNV12\tPXB\tPXB\tPXB\tPXB\t32-63,96-127\t1\t\tN/A\nGPU5\tSYS\tSYS\tSYS\tSYS\tNV12\t X \tPXB\tPXB\tPIX\tPIX\t32-63,96-127\t1\t\tN/A\nGPU6\tSYS\tSYS\tSYS\tSYS\tPXB\tPXB\t X \tNV12\tPXB\tPXB\t32-63,96-127\t1\t\tN/A\nGPU7\tSYS\tSYS\tSYS\tSYS\tPXB\tPXB\tNV12\t X \tPXB\tPXB\t32-63,96-127\t1\t\tN/A\nNIC0\tSYS\tSYS\tSYS\tSYS\tPXB\tPIX\tPXB\tPXB\t X \tPIX\t\t\t\t\nNIC1\tSYS\tSYS\tSYS\tSYS\tPXB\tPIX\tPXB\tPXB\tPIX\t X \t\t\t\t\n\nLegend:\n\n  X    = Self\n  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)\n  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node\n  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)\n  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)\n  PIX  = Connection traversing at most a single PCIe bridge\n  NV#  = Connection traversing a bonded set of # NVLinks\n\nNIC Legend:\n\n  NIC0: mlx5_0\n  NIC1: mlx5_1\n\n",
+  "mini_sglang_commit": "9a91cfafe754aa85daee49998176275667eb58f2",
+  "models": {
+    "Qwen3-0.6B": {
+      "metadata_sha256": {
+        "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+      },
+      "weight_files": {
+        "model.safetensors": 1503300328
+      }
+    },
+    "Qwen3-1.7B": {
+      "metadata_sha256": {
+        "config.json": "1ddb5b89ebc90dcb417a45c213d818577e65976454d29385c8f6140771d95197",
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "model.safetensors.index.json": "0d660e94b165eb912669a5249dff44b83188c4777a07ddb9611fb78d91b0578d"
+      },
+      "weight_files": {
+        "model-00002-of-00002.safetensors": 622329984,
+        "model-00001-of-00002.safetensors": 3441185608
+      }
+    },
+    "Qwen3-30B-A3B": {
+      "metadata_sha256": {
+        "config.json": "2850ddb3bf7aecad20b611e2d44f3077fc8193f4827c93beddd4c02ad63c2297",
+        "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+        "model.safetensors.index.json": "df0d481ec595c55a0ba58426d517390c6214a566ec4ff1c8fc4bbce9f57b3c24"
+      },
+      "weight_files": {
+        "model-00009-of-00016.safetensors": 3999975408,
+        "model-00003-of-00016.safetensors": 3997360832,
+        "model-00010-of-00016.safetensors": 3999975400,
+        "model-00014-of-00016.safetensors": 3999975400,
+        "model-00005-of-00016.safetensors": 3999975400,
+        "model-00011-of-00016.safetensors": 3999975408,
+        "model-00007-of-00016.safetensors": 3999975472,
+        "model-00002-of-00016.safetensors": 3999974192,
+        "model-00004-of-00016.safetensors": 3999975056,
+        "model-00016-of-00016.safetensors": 1087928584,
+        "model-00006-of-00016.safetensors": 3999975400,
+        "model-00013-of-00016.safetensors": 3997353632,
+        "model-00001-of-00016.safetensors": 3999417504,
+        "model-00012-of-00016.safetensors": 3987400496,
+        "model-00015-of-00016.safetensors": 3999975400,
+        "model-00008-of-00016.safetensors": 3997362064
+      }
+    }
+  }
+}

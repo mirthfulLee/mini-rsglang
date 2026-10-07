@@ -1,0 +1,17 @@
+[package]
+name = "rsglang-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+rsglang-core.workspace = true
+rsglang-distributed.workspace = true
+rsglang-kernels.workspace = true
+rsglang-models.workspace = true
+rand = "0.8"
+rand_chacha = "0.3"
+
+[dev-dependencies]
+serde.workspace = true
+serde_json.workspace = true

@@ -1,0 +1,16 @@
+[package]
+name = "rsglang-kernels"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+rsglang-core.workspace = true
+rsglang-distributed.workspace = true
+cudarc.workspace = true
+half.workspace = true
+sha2 = "0.10"
+libloading = "0.9"
+
+[dev-dependencies]
+serde_json.workspace = true

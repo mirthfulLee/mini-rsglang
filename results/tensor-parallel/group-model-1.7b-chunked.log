@@ -1,0 +1,2 @@
+tensor parallel devices=[0, 1, 2, 3, 4, 5, 6, 7], NCCL=22703
+exported 3 batched sequences, prefill plus 4 decode steps

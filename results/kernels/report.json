@@ -1,0 +1,46 @@
+{
+  "norm": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "linear": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "logits": {
+    "max_abs_error": 3.5762786865234375e-07,
+    "nrmse": 2.9090235997841773e-08
+  },
+  "add": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "swiglu": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "embedding": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "rope": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "kc": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "vc": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "last": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  },
+  "attention": {
+    "max_abs_error": 0.0,
+    "nrmse": 0.0
+  }
+}

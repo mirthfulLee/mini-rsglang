@@ -1,0 +1,22 @@
+   Compiling rsglang-kernels v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/kernels)
+   Compiling rsglang-models v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/models)
+   Compiling rsglang-engine v0.1.0 (/data1/huanli/projects/llm-inference/mini-rsglang/crates/engine)
+    Finished `release` profile [optimized + debuginfo] target(s) in 1.85s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/model-0.6b/full 4096`
+exported 3 batched sequences, prefill plus 4 decode steps
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+     Running `target/release/examples/forward /models/store/Qwen/Qwen3-0.6B /data1/huanli/projects/llm-inference/mini-rsglang/results/model-0.6b/input.json /data1/huanli/projects/llm-inference/mini-rsglang/results/model-0.6b/chunked 17`
+exported 3 batched sequences, prefill plus 4 decode steps
+{
+  "comparisons": 30,
+  "max_nrmse": 0.020474305489046392,
+  "min_cosine": 0.9998210563273928,
+  "top1_equal": 30,
+  "failures": 1
+}
+Traceback (most recent call last):
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/verify_model.py", line 179, in <module>
+    main()
+  File "/data1/huanli/projects/llm-inference/mini-rsglang/scripts/verify_model.py", line 174, in main
+    not failures
+AssertionError: 1 comparisons failed; full evidence saved to /data1/huanli/projects/llm-inference/mini-rsglang/results/model-0.6b/report.json
