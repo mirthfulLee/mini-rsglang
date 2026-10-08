@@ -3,7 +3,7 @@ use crate::{
     checkpoint::{Checkpoint, TensorSource},
     invalid,
     weights::decode_shard,
-    GptOssConfig, LayerKv,
+    GptOssConfig, InferenceModel, LayerKv, ModelDimensions,
 };
 use half::bf16;
 use rsglang_core::Result;
@@ -325,22 +325,7 @@ impl<B: KernelBackend> GptOss<B> {
         pages: usize,
         page_size: usize,
     ) -> Result<Vec<LayerKv<B::Tensor>>> {
-        let c = self.config.dimensions;
-        let shape = [
-            pages,
-            page_size,
-            self.tp.kv_heads(c.num_key_value_heads)?.len(),
-            c.head_dim,
-        ];
-        self.layers
-            .iter()
-            .map(|_| {
-                Ok(LayerKv {
-                    k: b.zeros(&shape)?,
-                    v: b.zeros(&shape)?,
-                })
-            })
-            .collect()
+        <Self as InferenceModel<B>>::allocate_kv(self, b, pages, page_size)
     }
     pub fn forward_hidden(
         &self,
@@ -445,5 +430,22 @@ impl<B: KernelBackend> GptOss<B> {
             b.logits(&b.last_hidden(x, meta)?, &self.lm_head)?,
             self.config.dimensions.vocab_size,
         )
+    }
+}
+
+impl<B: KernelBackend> InferenceModel<B> for GptOss<B> {
+    fn dimensions(&self) -> ModelDimensions {
+        self.config.dimensions
+    }
+    fn forward_hidden(
+        &self,
+        backend: &B,
+        meta: &B::Metadata,
+        kv: &mut [LayerKv<B::Tensor>],
+    ) -> Result<B::Tensor> {
+        GptOss::forward_hidden(self, backend, meta, kv)
+    }
+    fn project(&self, backend: &B, hidden: &B::Tensor, meta: &B::Metadata) -> Result<B::Logits> {
+        GptOss::project(self, backend, hidden, meta)
     }
 }

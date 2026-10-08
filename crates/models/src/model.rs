@@ -1,12 +1,12 @@
-//! Architecture dispatch shared by the single-GPU and tensor-parallel engines.
-use crate::{invalid, GptOss, GptOssConfig, LayerKv, Qwen3, Qwen3Config};
+//! Model contracts and the centralized checkpoint loading factory.
+use crate::{invalid, GptOss, GptOssConfig, Qwen3, Qwen3Config};
 use rsglang_core::Result;
 use rsglang_distributed::TensorParallel;
 use rsglang_kernels::KernelBackend;
 use serde::Deserialize;
 use std::path::Path;
 
-#[derive(Clone, Copy, Debug, Deserialize)]
+#[derive(Clone, Copy, Debug, Deserialize, PartialEq, Eq)]
 pub struct ModelDimensions {
     pub hidden_size: usize,
     pub intermediate_size: usize,
@@ -17,6 +17,31 @@ pub struct ModelDimensions {
     pub vocab_size: usize,
     pub max_position_embeddings: usize,
 }
+
+/// Model-specific metadata and validation, independent of GPU execution.
+pub trait ModelConfiguration {
+    fn dimensions(&self) -> ModelDimensions;
+    fn validate_tp(&self, tp: TensorParallel) -> Result<()>;
+    fn generation_eos_ids(&self, path: &Path) -> Result<Vec<u32>>;
+
+    /// The common paged K/V layout; architectures with other layouts can override it.
+    fn kv_bytes_per_page_tp(&self, page_size: usize, tp: TensorParallel) -> Result<usize> {
+        let c = self.dimensions();
+        [
+            c.num_hidden_layers,
+            2,
+            page_size,
+            tp.kv_heads(c.num_key_value_heads)?.len(),
+            c.head_dim,
+            2,
+        ]
+        .into_iter()
+        .try_fold(1usize, |a, b| {
+            a.checked_mul(b).ok_or_else(|| invalid("KV size overflow"))
+        })
+    }
+}
+
 #[derive(Clone, Debug)]
 pub enum ModelConfig {
     Qwen3(Qwen3Config),
@@ -35,99 +60,86 @@ impl ModelConfig {
             ))),
         }
     }
-    pub fn dimensions(&self) -> ModelDimensions {
+    /// One registration point for the behavior of strongly typed configurations.
+    pub fn configuration(&self) -> &dyn ModelConfiguration {
         match self {
-            Self::GptOss(c) => c.dimensions,
-            Self::Qwen3(c) => ModelDimensions {
-                hidden_size: c.hidden_size,
-                intermediate_size: c.intermediate_size,
-                num_hidden_layers: c.num_hidden_layers,
-                num_attention_heads: c.num_attention_heads,
-                num_key_value_heads: c.num_key_value_heads,
-                head_dim: c.head_dim,
-                vocab_size: c.vocab_size,
-                max_position_embeddings: c.max_position_embeddings,
-            },
+            Self::Qwen3(c) => c,
+            Self::GptOss(c) => c,
         }
+    }
+    pub fn dimensions(&self) -> ModelDimensions {
+        self.configuration().dimensions()
     }
     pub fn validate_tp(&self, tp: TensorParallel) -> Result<()> {
-        match self {
-            Self::Qwen3(c) => c.validate_tp(tp),
-            Self::GptOss(c) => c.validate_tp(tp),
-        }
+        self.configuration().validate_tp(tp)
     }
     pub fn generation_eos_ids(&self, path: &Path) -> Result<Vec<u32>> {
-        match self {
-            Self::Qwen3(c) => c.generation_eos_ids(path),
-            Self::GptOss(c) => c.generation_eos_ids(path),
-        }
+        self.configuration().generation_eos_ids(path)
     }
     pub fn kv_bytes_per_page_tp(&self, page_size: usize, tp: TensorParallel) -> Result<usize> {
-        let c = self.dimensions();
-        [
-            c.num_hidden_layers,
-            2,
-            page_size,
-            tp.kv_heads(c.num_key_value_heads)?.len(),
-            c.head_dim,
-            2,
-        ]
-        .into_iter()
-        .try_fold(1usize, |a, b| {
-            a.checked_mul(b).ok_or_else(|| invalid("KV size overflow"))
-        })
+        self.configuration().kv_bytes_per_page_tp(page_size, tp)
     }
 }
-enum Implementation<B: KernelBackend> {
-    Qwen3(Qwen3<B>),
-    GptOss(GptOss<B>),
+
+/// Rank-local physical K/V buffers, owned by the engine and borrowed during forward.
+pub struct LayerKv<T> {
+    pub k: T,
+    pub v: T,
 }
-pub struct Model<B: KernelBackend> {
-    config: ModelConfig,
-    implementation: Implementation<B>,
-}
-impl<B: KernelBackend> Model<B> {
-    pub fn load(backend: &B, path: &Path, config: ModelConfig) -> Result<Self> {
-        let implementation = match &config {
-            ModelConfig::Qwen3(c) => Implementation::Qwen3(Qwen3::load(backend, path, c.clone())?),
-            ModelConfig::GptOss(c) => {
-                Implementation::GptOss(GptOss::load(backend, path, c.clone())?)
-            }
-        };
-        Ok(Self {
-            config,
-            implementation,
-        })
-    }
-    pub fn config(&self) -> &ModelConfig {
-        &self.config
-    }
-    pub fn allocate_kv(
+
+/// Object-safe model execution contract. Each rank constructs and owns its model;
+/// CUDA resources are never required to cross threads through this trait object.
+pub trait InferenceModel<B: KernelBackend> {
+    fn dimensions(&self) -> ModelDimensions;
+
+    /// Allocate the standard paged K/V layout used by Qwen3 and GPT-OSS.
+    fn allocate_kv(
         &self,
-        b: &B,
+        backend: &B,
         pages: usize,
         page_size: usize,
     ) -> Result<Vec<LayerKv<B::Tensor>>> {
-        match &self.implementation {
-            Implementation::Qwen3(m) => m.allocate_kv(b, pages, page_size),
-            Implementation::GptOss(m) => m.allocate_kv(b, pages, page_size),
-        }
+        let c = self.dimensions();
+        let shape = [
+            pages,
+            page_size,
+            backend
+                .tensor_parallel()
+                .kv_heads(c.num_key_value_heads)?
+                .len(),
+            c.head_dim,
+        ];
+        (0..c.num_hidden_layers)
+            .map(|_| {
+                Ok(LayerKv {
+                    k: backend.zeros(&shape)?,
+                    v: backend.zeros(&shape)?,
+                })
+            })
+            .collect()
     }
-    pub fn forward_hidden(
+
+    fn forward_hidden(
         &self,
-        b: &B,
+        backend: &B,
         meta: &B::Metadata,
         kv: &mut [LayerKv<B::Tensor>],
-    ) -> Result<B::Tensor> {
-        match &self.implementation {
-            Implementation::Qwen3(m) => m.forward_hidden(b, meta, kv),
-            Implementation::GptOss(m) => m.forward_hidden(b, meta, kv),
-        }
-    }
-    pub fn project(&self, b: &B, x: &B::Tensor, meta: &B::Metadata) -> Result<B::Logits> {
-        match &self.implementation {
-            Implementation::Qwen3(m) => m.project(b, x, meta),
-            Implementation::GptOss(m) => m.project(b, x, meta),
-        }
+    ) -> Result<B::Tensor>;
+
+    fn project(&self, backend: &B, hidden: &B::Tensor, meta: &B::Metadata) -> Result<B::Logits>;
+}
+
+/// Select the concrete architecture once when loading a checkpoint.
+pub fn load_model<B: KernelBackend + 'static>(
+    backend: &B,
+    path: &Path,
+    config: &ModelConfig,
+) -> Result<Box<dyn InferenceModel<B>>>
+where
+    B::Tensor: 'static,
+{
+    match config {
+        ModelConfig::Qwen3(c) => Ok(Box::new(Qwen3::load(backend, path, c.clone())?)),
+        ModelConfig::GptOss(c) => Ok(Box::new(GptOss::load(backend, path, c.clone())?)),
     }
 }

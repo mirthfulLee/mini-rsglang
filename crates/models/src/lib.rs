@@ -12,8 +12,10 @@ mod weights;
 pub use config::Qwen3Config;
 pub use gpt_oss::GptOss;
 pub use gpt_oss_config::GptOssConfig;
-pub use model::{Model, ModelConfig, ModelDimensions};
-pub use qwen3::{LayerKv, Qwen3};
+pub use model::{
+    load_model, InferenceModel, LayerKv, ModelConfig, ModelConfiguration, ModelDimensions,
+};
+pub use qwen3::Qwen3;
 
 use rsglang_core::Error;
 

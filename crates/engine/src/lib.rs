@@ -6,12 +6,13 @@ use rand_chacha::ChaCha8Rng;
 use rsglang_core::{Error, ModelRunner, RequestId, Result, SamplingParams, StepBatch, TokenOutput};
 use rsglang_distributed::{RankRunner, TensorParallel};
 use rsglang_kernels::{CudaBackend, KernelBackend};
-use rsglang_models::{LayerKv, Model, ModelConfig};
+use rsglang_models::{load_model, InferenceModel, LayerKv, ModelConfig};
 use std::{collections::HashMap, path::Path};
 
 pub struct Engine<B: KernelBackend> {
     backend: B,
-    model: Model<B>,
+    model: Box<dyn InferenceModel<B>>,
+    config: ModelConfig,
     kv: Vec<LayerKv<B::Tensor>>,
     num_pages: usize,
     page_size: usize,
@@ -58,12 +59,13 @@ impl Engine<CudaBackend> {
         if num_pages == 0 || num_pages > u32::MAX as usize {
             return Err(Error::Invalid("invalid KV memory budget".into()));
         }
-        let model = Model::load(&backend, path, config)?;
+        let model = load_model(&backend, path, &config)?;
         let kv = model.allocate_kv(&backend, num_pages, page_size)?;
         backend.synchronize()?;
         Ok(Self {
             backend,
             model,
+            config,
             kv,
             num_pages,
             page_size,
@@ -77,7 +79,7 @@ impl<B: KernelBackend> Engine<B> {
         &self.backend
     }
     pub fn config(&self) -> &ModelConfig {
-        self.model.config()
+        &self.config
     }
     pub fn num_pages(&self) -> usize {
         self.num_pages
@@ -87,7 +89,7 @@ impl<B: KernelBackend> Engine<B> {
             batch,
             self.page_size,
             self.num_pages,
-            self.config().dimensions().vocab_size,
+            self.model.dimensions().vocab_size,
             self.max_seq_len,
         )?;
         let hidden = self
@@ -111,7 +113,7 @@ impl<B: KernelBackend> ModelRunner for Engine<B> {
                 batch,
                 self.page_size,
                 self.num_pages,
-                self.config().dimensions().vocab_size,
+                self.model.dimensions().vocab_size,
                 self.max_seq_len,
             )?;
             let hidden = self

@@ -1,7 +1,9 @@
 # GPT-OSS support and validation
 
 GPT-OSS is an experimental second model family alongside Qwen3. Architecture
-dispatch uses `model_type: gpt_oss` and `GptOssForCausalLM`. The engine accepts
+selection uses `model_type: gpt_oss` and `GptOssForCausalLM`. The model implements
+`InferenceModel<B>` and its configuration implements `ModelConfiguration`, so the
+shared engine executes through the same traits as Qwen3. The engine accepts
 the Hugging Face checkpoint layout with either BF16 expert tensors or native
 MXFP4 `*_blocks` / `*_scales`; the `original/` reference checkpoint layout is
 not supported.

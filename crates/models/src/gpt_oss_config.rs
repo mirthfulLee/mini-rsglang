@@ -1,5 +1,5 @@
 //! GPT-OSS architecture validation and YaRN frequencies.
-use crate::{invalid, ModelDimensions};
+use crate::{invalid, ModelConfiguration, ModelDimensions};
 use rsglang_core::Result;
 use rsglang_distributed::TensorParallel;
 use serde::Deserialize;
@@ -204,5 +204,17 @@ impl GptOssConfig {
             frequencies,
             y.attention_factor.unwrap_or(1.0 + 0.1 * y.factor.ln()),
         )
+    }
+}
+
+impl ModelConfiguration for GptOssConfig {
+    fn dimensions(&self) -> ModelDimensions {
+        self.dimensions
+    }
+    fn validate_tp(&self, tp: TensorParallel) -> Result<()> {
+        GptOssConfig::validate_tp(self, tp)
+    }
+    fn generation_eos_ids(&self, path: &Path) -> Result<Vec<u32>> {
+        GptOssConfig::generation_eos_ids(self, path)
     }
 }

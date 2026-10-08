@@ -27,21 +27,48 @@ flowchart LR
 | runtime | core, cache, engine | Scheduler, worker lifecycle, tokenizer/template, streams and metrics |
 | server | core, runtime | CLI, HTTP/SSE and benchmark |
 
-Within `models`, `config.rs` validates architecture/dimensions and checkpoint
-metadata, `weights.rs` validates safetensors and uploads rank-local slices, and
-`qwen3.rs` constructs layers and runs dense/MoE forward execution. The crate root
-re-exports `Qwen3Config`, `Qwen3`, and `LayerKv`. The backend-independent
-`KernelBackend` contract and `ExpertAssignment` are in `kernels/src/interface.rs`;
-CUDA resources and checked operations remain inside the kernels crate.
+Within `models`, `config.rs` validates Qwen3 architecture/dimensions and checkpoint
+metadata, `weights.rs` validates Qwen3 safetensors and uploads rank-local slices,
+and `qwen3.rs` constructs layers and runs dense/MoE forward execution. GPT-OSS
+has separate configuration, checkpoint-range loading, and forward modules.
+`kernels/src/interface.rs` defines the backend-independent `KernelBackend`
+contract; CUDA resources and checked operations remain inside the kernels crate.
 
-`ModelConfig` and `Model` dispatch between Qwen3 and GPT-OSS. Engine callers
-obtain shared dimensions through `config().dimensions()`; Qwen3-specific types
-remain exported. GPT-OSS uses separate configuration/YaRN and forward modules,
-a checked checkpoint range reader, and resident attention/embedding weights.
-Its experts are fetched on demand from BF16 tensors or MXFP4 blocks/scales, then
-uploaded for the selected rows. Temporary expert buffers are dropped after an
-ordered completion boundary. See [GPT-OSS](gpt-oss.md) for numerical and serving
-limits.
+`model.rs` defines the model contracts and centralized loading factory:
+
+- `ModelConfiguration` exposes dimensions, TP validation, EOS metadata, and
+  a default paged K/V memory calculation. Each concrete configuration implements
+  it. `ModelConfig` retains strongly typed variants for loading and cloning
+  across rank initialization; its `configuration()` method provides a trait view.
+- `InferenceModel<B>` is an object-safe execution interface with `dimensions`,
+  `allocate_kv`, `forward_hidden`, and `project`. Qwen3 and GPT-OSS implement it
+  alongside their concrete APIs. The default KV allocator uses the shared
+  `LayerKv<T>` structure and rank-local head count.
+- `load_model` selects a concrete architecture during initialization and returns
+  `Box<dyn InferenceModel<B>>`. Each engine owns that object and its configuration.
+  Forward execution calls the trait directly. Dynamic dispatch occurs at model
+  operation boundaries; layer and kernel calls remain generic over backend `B`.
+
+To add a model, implement its configuration and `InferenceModel<B>` in the
+model-specific modules, export the types, and register them in `model.rs`:
+add the `ModelConfig` variant and arms in `load`, `configuration`, and
+`load_model`. Existing configuration forwarding methods, Engine, scheduler,
+cache, and server do not require architecture branches. New operators require
+implementing their backend capabilities. A model needing another physical KV
+representation would require extending the K/V contract as well.
+
+The model trait has no `Send`/`Sync` requirement: each rank constructs and owns
+its model on its worker thread. CUDA handles and mutable KV state do not cross
+threads through the trait object.
+
+The [trait refactor regression report](../results/model-trait/report.json)
+records 30 passing CPU tests and 288 passing Qwen3/GPT-OSS HF comparisons at TP
+1/2/4. All 240 available pre-refactor logits rows compare byte-for-byte equal.
+
+GPT-OSS fetches expert weights on demand from BF16 tensors or MXFP4 blocks/scales,
+then uploads them for the selected rows. Temporary expert buffers are dropped
+after an ordered completion boundary. See [GPT-OSS](gpt-oss.md) for numerical
+and serving limits.
 
 The runtime worker owns the scheduler and its ModelRunner. Single-GPU mode constructs/owns its engine on that thread. TP mode uses RankGroup: each GPU thread constructs/owns a rank-local engine, and all ranks receive matching CPU batches. Only rank 0 samples; every rank completes its stream before the coordinator returns. CPU cache metadata never holds device pointers. `StepBatch` contains token IDs, logical positions, page IDs, and optional sampling parameters; metadata construction validates page coverage, vocabulary bounds, and unique write slots before GPU work.
 

@@ -1,5 +1,5 @@
 //! Checkpoint architecture, dimensions, EOS metadata, and KV sizing.
-use crate::invalid;
+use crate::{invalid, ModelConfiguration, ModelDimensions};
 use rsglang_core::Result;
 use rsglang_distributed::TensorParallel;
 use serde::Deserialize;
@@ -186,17 +186,27 @@ impl Qwen3Config {
         self.kv_bytes_per_page_tp(page_size, TensorParallel::default())
     }
     pub fn kv_bytes_per_page_tp(&self, page_size: usize, tp: TensorParallel) -> Result<usize> {
-        [
-            self.num_hidden_layers,
-            2,
-            page_size,
-            tp.kv_heads(self.num_key_value_heads)?.len(),
-            self.head_dim,
-            2,
-        ]
-        .into_iter()
-        .try_fold(1usize, |a, b| {
-            a.checked_mul(b).ok_or_else(|| invalid("KV size overflow"))
-        })
+        <Self as ModelConfiguration>::kv_bytes_per_page_tp(self, page_size, tp)
+    }
+}
+
+impl ModelConfiguration for Qwen3Config {
+    fn dimensions(&self) -> ModelDimensions {
+        ModelDimensions {
+            hidden_size: self.hidden_size,
+            intermediate_size: self.intermediate_size,
+            num_hidden_layers: self.num_hidden_layers,
+            num_attention_heads: self.num_attention_heads,
+            num_key_value_heads: self.num_key_value_heads,
+            head_dim: self.head_dim,
+            vocab_size: self.vocab_size,
+            max_position_embeddings: self.max_position_embeddings,
+        }
+    }
+    fn validate_tp(&self, tp: TensorParallel) -> Result<()> {
+        Qwen3Config::validate_tp(self, tp)
+    }
+    fn generation_eos_ids(&self, path: &Path) -> Result<Vec<u32>> {
+        Qwen3Config::generation_eos_ids(self, path)
     }
 }

@@ -1,5 +1,8 @@
 //! Qwen3 dense/MoE layer construction and forward execution.
-use crate::{invalid, weights::load_weights, Qwen3Config};
+use crate::{
+    invalid, weights::load_weights, InferenceModel, LayerKv, ModelConfiguration, ModelDimensions,
+    Qwen3Config,
+};
 use rsglang_core::Result;
 use rsglang_distributed::TensorParallel;
 use rsglang_kernels::KernelBackend;
@@ -25,10 +28,6 @@ enum Mlp<T> {
         router: T,
         experts: Vec<DenseMlp<T>>,
     },
-}
-pub struct LayerKv<T> {
-    pub k: T,
-    pub v: T,
 }
 pub struct Qwen3<B: KernelBackend> {
     config: Qwen3Config,
@@ -147,20 +146,7 @@ impl<B: KernelBackend> Qwen3<B> {
         pages: usize,
         page_size: usize,
     ) -> Result<Vec<LayerKv<B::Tensor>>> {
-        let shape = [
-            pages,
-            page_size,
-            self.tp.kv_heads(self.config.num_key_value_heads)?.len(),
-            self.config.head_dim,
-        ];
-        (0..self.layers.len())
-            .map(|_| {
-                Ok(LayerKv {
-                    k: b.zeros(&shape)?,
-                    v: b.zeros(&shape)?,
-                })
-            })
-            .collect()
+        <Self as InferenceModel<B>>::allocate_kv(self, b, pages, page_size)
     }
     pub fn forward_hidden(
         &self,
@@ -273,4 +259,21 @@ fn load_mlp<B: KernelBackend>(
         down: take(&format!("{root}.down_proj.weight"), &[hidden, local])?,
         intermediate: local,
     })
+}
+
+impl<B: KernelBackend> InferenceModel<B> for Qwen3<B> {
+    fn dimensions(&self) -> ModelDimensions {
+        self.config.dimensions()
+    }
+    fn forward_hidden(
+        &self,
+        backend: &B,
+        meta: &B::Metadata,
+        kv: &mut [LayerKv<B::Tensor>],
+    ) -> Result<B::Tensor> {
+        Qwen3::forward_hidden(self, backend, meta, kv)
+    }
+    fn project(&self, backend: &B, hidden: &B::Tensor, meta: &B::Metadata) -> Result<B::Logits> {
+        Qwen3::project(self, backend, hidden, meta)
+    }
 }

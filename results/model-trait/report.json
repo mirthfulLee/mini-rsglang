@@ -1,0 +1,60 @@
+{
+  "base_commit": "6f218585bd9a00d2d64fd5ebe0f612fbb5c560e9",
+  "source_sha256": {
+    "crates/engine/src/lib.rs": "c94dab57f687e3f779634aa2bde16f76d860fee7c4eaf28511ac31a5bc357118",
+    "crates/models/src/config.rs": "5309c9dc3e04c1e995271736be3bff2ee5b15b857728921de965a07ef97c1dc2",
+    "crates/models/src/gpt_oss.rs": "af4f0931d5b889b1bd810263d359658aea6ee2cd8fb5dddb37d814baac857313",
+    "crates/models/src/gpt_oss_config.rs": "2a6a2d8e6b208ccb7195305ccc6ccb9b7b5410b86e66b2623ce48c3c3ac067cb",
+    "crates/models/src/lib.rs": "0a294ee537be2749791907afa1e0d2fd78434be470a92aa3f75fbb5f9ef50497",
+    "crates/models/src/model.rs": "f8895bd3564729fae45c1137b5ddd1a82c5ab91e24dfb0ea1d12d31c6260a051",
+    "crates/models/src/qwen3.rs": "b953e524d12f086d423e1d22e9b8e5c67ccb70ec4d8134b91911a894553020ed"
+  },
+  "cpu_tests_passed": 30,
+  "gpu_only_test_ignored": 1,
+  "release_build": true,
+  "rustfmt": true,
+  "clippy_warnings_denied": true,
+  "fixtures": [
+    {
+      "family": "qwen",
+      "world_sizes": [
+        1,
+        2,
+        4
+      ],
+      "comparisons": 144,
+      "passed": true,
+      "top1_matches": 144,
+      "max_nrmse": 0.005152278086492409,
+      "min_cosine": 0.9999898686634004,
+      "all_chunked_logits_exact": true
+    },
+    {
+      "family": "gpt-oss",
+      "world_sizes": [
+        1,
+        2,
+        4
+      ],
+      "comparisons": 144,
+      "passed": true,
+      "top1_matches": 144,
+      "max_nrmse": 0.007208269217065582,
+      "min_cosine": 0.9999745528585577,
+      "all_chunked_logits_exact": true
+    }
+  ],
+  "before_after": [
+    {
+      "family": "gpt-oss",
+      "compared_rows": 144,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "compared_rows": 96,
+      "byte_identical": true
+    }
+  ],
+  "note": "Model dispatch and shared KV allocation refactor. Original full-model numerical and NCCL instrumentation gates remain separate from these synthetic regression results."
+}
