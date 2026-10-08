@@ -107,75 +107,16 @@ impl ModelRunner for ParallelEngine {
         self.ranks.memory_bytes()
     }
 }
-
-/// Scheduler-facing runner. CUDA state stays inside the owning rank worker(s).
-pub enum InferenceEngine {
-    Single(Box<Engine<CudaBackend>>),
-    Parallel(Box<ParallelEngine>),
-}
-impl InferenceEngine {
-    pub fn load(
-        path: &Path,
-        devices: &[usize],
-        kv_bytes: usize,
-        page_size: usize,
-        max_seq_len: usize,
-    ) -> Result<Self> {
-        validate_devices(devices)?;
-        if devices.len() == 1 {
-            Ok(Self::Single(Box::new(Engine::load(
-                path,
-                devices[0],
-                kv_bytes,
-                page_size,
-                max_seq_len,
-            )?)))
-        } else {
-            Ok(Self::Parallel(Box::new(ParallelEngine::load(
-                path,
-                devices,
-                kv_bytes,
-                page_size,
-                max_seq_len,
-            )?)))
-        }
-    }
-    pub fn config(&self) -> &ModelConfig {
-        match self {
-            Self::Single(e) => e.config(),
-            Self::Parallel(e) => e.config(),
-        }
-    }
-    pub fn num_pages(&self) -> usize {
-        match self {
-            Self::Single(e) => e.num_pages(),
-            Self::Parallel(e) => e.num_pages(),
-        }
-    }
-    pub fn logits_rows(&mut self, batch: &StepBatch) -> Result<Vec<Vec<f32>>> {
-        match self {
-            Self::Single(e) => RankRunner::logits_rows(e.as_mut(), batch),
-            Self::Parallel(e) => e.logits_rows(batch),
-        }
+impl RankRunner for ParallelEngine {
+    fn logits_rows(&mut self, batch: &StepBatch) -> Result<Vec<Vec<f32>>> {
+        self.logits_rows(batch)
     }
 }
-impl ModelRunner for InferenceEngine {
-    fn run(&mut self, batch: &StepBatch) -> Result<Vec<TokenOutput>> {
-        match self {
-            Self::Single(e) => e.run(batch),
-            Self::Parallel(e) => e.run(batch),
-        }
+impl ExecutionEngine for ParallelEngine {
+    fn config(&self) -> &ModelConfig {
+        self.config()
     }
-    fn forget_request(&mut self, id: RequestId) {
-        match self {
-            Self::Single(e) => e.forget_request(id),
-            Self::Parallel(e) => e.forget_request(id),
-        }
-    }
-    fn memory_bytes(&self) -> Option<u64> {
-        match self {
-            Self::Single(e) => e.memory_bytes(),
-            Self::Parallel(e) => e.memory_bytes(),
-        }
+    fn num_pages(&self) -> usize {
+        self.num_pages()
     }
 }

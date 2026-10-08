@@ -1,0 +1,438 @@
+{
+  "base_commit": "5aa8c5853b40021b966fede048a9c3fdd8f3af59",
+  "fixtures": [
+    {
+      "family": "qwen",
+      "fixture": "dense",
+      "world_size": 1,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "dense",
+      "world_size": 1,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "dense",
+      "world_size": 2,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "dense",
+      "world_size": 2,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "dense",
+      "world_size": 4,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "dense",
+      "world_size": 4,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "moe",
+      "world_size": 1,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "moe",
+      "world_size": 1,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "moe",
+      "world_size": 2,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "moe",
+      "world_size": 2,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "moe",
+      "world_size": 4,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "qwen",
+      "fixture": "moe",
+      "world_size": 4,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "bf16",
+      "world_size": 1,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "bf16",
+      "world_size": 1,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "bf16",
+      "world_size": 2,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "bf16",
+      "world_size": 2,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "bf16",
+      "world_size": 4,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "bf16",
+      "world_size": 4,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "mxfp4",
+      "world_size": 1,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "mxfp4",
+      "world_size": 1,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "mxfp4",
+      "world_size": 2,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "mxfp4",
+      "world_size": 2,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "mxfp4",
+      "world_size": 4,
+      "mode": "full",
+      "compared_rows": 12,
+      "byte_identical": true
+    },
+    {
+      "family": "gpt-oss",
+      "fixture": "mxfp4",
+      "world_size": 4,
+      "mode": "chunked",
+      "compared_rows": 12,
+      "byte_identical": true
+    }
+  ],
+  "commands": [
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/dense",
+      "results/experiments/model-trait/qwen/fixtures/dense/input.json",
+      "results/experiments/engine-trait/qwen/dense/tp1-full",
+      "256",
+      "0"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/dense",
+      "results/experiments/model-trait/qwen/fixtures/dense/input.json",
+      "results/experiments/engine-trait/qwen/dense/tp1-chunked",
+      "5",
+      "0"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/dense",
+      "results/experiments/model-trait/qwen/fixtures/dense/input.json",
+      "results/experiments/engine-trait/qwen/dense/tp2-full",
+      "256",
+      "0,1"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/dense",
+      "results/experiments/model-trait/qwen/fixtures/dense/input.json",
+      "results/experiments/engine-trait/qwen/dense/tp2-chunked",
+      "5",
+      "0,1"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/dense",
+      "results/experiments/model-trait/qwen/fixtures/dense/input.json",
+      "results/experiments/engine-trait/qwen/dense/tp4-full",
+      "256",
+      "0,1,2,3"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/dense",
+      "results/experiments/model-trait/qwen/fixtures/dense/input.json",
+      "results/experiments/engine-trait/qwen/dense/tp4-chunked",
+      "5",
+      "0,1,2,3"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/moe",
+      "results/experiments/model-trait/qwen/fixtures/moe/input.json",
+      "results/experiments/engine-trait/qwen/moe/tp1-full",
+      "256",
+      "0"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/moe",
+      "results/experiments/model-trait/qwen/fixtures/moe/input.json",
+      "results/experiments/engine-trait/qwen/moe/tp1-chunked",
+      "5",
+      "0"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/moe",
+      "results/experiments/model-trait/qwen/fixtures/moe/input.json",
+      "results/experiments/engine-trait/qwen/moe/tp2-full",
+      "256",
+      "0,1"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/moe",
+      "results/experiments/model-trait/qwen/fixtures/moe/input.json",
+      "results/experiments/engine-trait/qwen/moe/tp2-chunked",
+      "5",
+      "0,1"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/moe",
+      "results/experiments/model-trait/qwen/fixtures/moe/input.json",
+      "results/experiments/engine-trait/qwen/moe/tp4-full",
+      "256",
+      "0,1,2,3"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/qwen/fixtures/moe",
+      "results/experiments/model-trait/qwen/fixtures/moe/input.json",
+      "results/experiments/engine-trait/qwen/moe/tp4-chunked",
+      "5",
+      "0,1,2,3"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16/input.json",
+      "results/experiments/engine-trait/gpt-oss/bf16/tp1-full",
+      "256",
+      "0"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16/input.json",
+      "results/experiments/engine-trait/gpt-oss/bf16/tp1-chunked",
+      "5",
+      "0"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16/input.json",
+      "results/experiments/engine-trait/gpt-oss/bf16/tp2-full",
+      "256",
+      "0,1"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16/input.json",
+      "results/experiments/engine-trait/gpt-oss/bf16/tp2-chunked",
+      "5",
+      "0,1"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16/input.json",
+      "results/experiments/engine-trait/gpt-oss/bf16/tp4-full",
+      "256",
+      "0,1,2,3"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16",
+      "results/experiments/model-trait/gpt-oss/fixtures/bf16/input.json",
+      "results/experiments/engine-trait/gpt-oss/bf16/tp4-chunked",
+      "5",
+      "0,1,2,3"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4/input.json",
+      "results/experiments/engine-trait/gpt-oss/mxfp4/tp1-full",
+      "256",
+      "0"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4/input.json",
+      "results/experiments/engine-trait/gpt-oss/mxfp4/tp1-chunked",
+      "5",
+      "0"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4/input.json",
+      "results/experiments/engine-trait/gpt-oss/mxfp4/tp2-full",
+      "256",
+      "0,1"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4/input.json",
+      "results/experiments/engine-trait/gpt-oss/mxfp4/tp2-chunked",
+      "5",
+      "0,1"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4/input.json",
+      "results/experiments/engine-trait/gpt-oss/mxfp4/tp4-full",
+      "256",
+      "0,1,2,3"
+    ],
+    [
+      "target/release/examples/forward",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4",
+      "results/experiments/model-trait/gpt-oss/fixtures/mxfp4/input.json",
+      "results/experiments/engine-trait/gpt-oss/mxfp4/tp4-chunked",
+      "5",
+      "0,1,2,3"
+    ]
+  ],
+  "compared_rows": 288,
+  "source_sha256": {
+    "crates/engine/src/inference.rs": "ecee519da5437ddfd6c6bfa27a5c0bfac6d3fdb33790ec28097206a998e10fdf",
+    "crates/engine/src/lib.rs": "5433ed5b488e7dcb4ab5656882bf8d350bc8f20dabf3ae193aec9e1d1a3188f9",
+    "crates/engine/src/parallel.rs": "ba26c722dbae78ae286248c01862cf6b3cb3682c04a8f93f58682567b16cb79b"
+  },
+  "cpu_tests_passed": 30,
+  "gpu_only_test_ignored": 1,
+  "rustfmt": true,
+  "clippy_warnings_denied": true,
+  "release_build": true,
+  "passed": true,
+  "services": [
+    {
+      "mode": "single",
+      "model": "/models/store/Qwen/Qwen3-0.6B",
+      "report": "service-single.json",
+      "passed": true,
+      "command": [
+        ".venv-verify/bin/python",
+        "scripts/verify_service.py",
+        "--device",
+        "6",
+        "--port",
+        "24837",
+        "--output",
+        "results/engine-trait/service-single.json"
+      ]
+    },
+    {
+      "mode": "tp2",
+      "model": "/models/store/Qwen/Qwen3-0.6B",
+      "report": "service-tp2.json",
+      "passed": true,
+      "command": [
+        ".venv-verify/bin/python",
+        "scripts/verify_service.py",
+        "--devices",
+        "4,5",
+        "--port",
+        "24838",
+        "--output",
+        "results/engine-trait/service-tp2.json"
+      ]
+    }
+  ],
+  "note": "Execution strategy dispatch refactor. Fixture logits compare byte-for-byte against the previous model-trait run; native GPT-OSS 120B numerical gates were not rerun. GPU memory metrics report device usage and include other resident processes."
+}

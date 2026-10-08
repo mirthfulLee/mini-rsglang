@@ -221,9 +221,11 @@ cargo run --release --locked -p rsglang-runtime --example generate -- "$MODEL_PA
 Model configuration, checkpoint loading, and forward execution live in separate
 modules. Each model implements `InferenceModel<B>`; Engine owns a trait object
 returned by `load_model`. Configurations implement `ModelConfiguration` and use
-one centralized loading/registration module. `KernelBackend` isolates model code
-from CUDA resources. Each GPU
-worker owns its model, KV shard, and stream. The scheduler commits a step after
+one centralized loading/registration module. Single-GPU and tensor-parallel engines
+implement `ExecutionEngine`; `InferenceEngine` forwards through a trait object.
+Additional execution strategies can be wrapped with `InferenceEngine::new`.
+`KernelBackend` isolates model code from CUDA resources. Each GPU worker owns its
+model, KV shard, and stream. The scheduler commits a step after
 all ranks complete. Rust unsafe code is confined to the kernels crate. See
 [architecture](docs/architecture.md) for the ownership and scheduling design.
 

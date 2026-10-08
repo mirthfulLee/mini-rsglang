@@ -6,7 +6,7 @@ flowchart LR
   Handle -->|bounded owned submissions| Worker[Dedicated GPU worker]
   Worker --> Scheduler[Scheduler: requests and page leases]
   Scheduler --> Cache[PagePool + radix arena]
-  Scheduler -->|StepBatch| Engine[ModelRunner / Engine]
+  Scheduler -->|StepBatch| Engine[InferenceEngine: dyn ExecutionEngine]
   Engine --> Single[Single GPU engine]
   Engine --> Group[RankGroup: batch broadcast and completion barrier]
   Group --> Ranks[Rank workers: local model and KV shards]
@@ -60,6 +60,28 @@ representation would require extending the K/V contract as well.
 The model trait has no `Send`/`Sync` requirement: each rank constructs and owns
 its model on its worker thread. CUDA handles and mutable KV state do not cross
 threads through the trait object.
+
+`engine/src/inference.rs` defines `ExecutionEngine: RankRunner`, which inherits
+the generation, request cleanup, memory reporting, and diagnostic logits contracts
+and adds model configuration and KV page capacity. Both `Engine<B>` and
+`ParallelEngine` implement it. `InferenceEngine` owns `Box<dyn ExecutionEngine>`
+and forwards calls directly, without matching execution variants at each step.
+Its existing `load` factory selects single-GPU or TP execution once at startup.
+To add an execution strategy, implement `ModelRunner`, `RankRunner`, and
+`ExecutionEngine`, then pass the implementation to `InferenceEngine::new`;
+shared forwarding and scheduler code require no changes. Integrating a new
+strategy into the built-in device-based loader would still require updating
+that factory. The execution trait also has no `Send`/`Sync` bound, preserving
+worker-local CUDA ownership.
+
+`InferenceEngine::load` and its forwarding methods retain their call signatures;
+the former `Single`/`Parallel` enum variants are replaced by the boxed strategy.
+The [execution trait regression report](../results/engine-trait/report.json)
+records 288 byte-identical logits rows across Qwen3 dense/MoE and GPT-OSS
+BF16/MXFP4 fixtures at TP 1/2/4. Real Qwen3-0.6B serving checks pass in both
+[single-GPU](../results/engine-trait/service-single.json) and
+[TP2](../results/engine-trait/service-tp2.json) modes, covering HTTP/SSE, seeded
+sampling, EOS, cancellation, overload rejection, and KV page conservation.
 
 The [trait refactor regression report](../results/model-trait/report.json)
 records 30 passing CPU tests and 288 passing Qwen3/GPT-OSS HF comparisons at TP

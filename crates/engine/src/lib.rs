@@ -1,6 +1,8 @@
 #![forbid(unsafe_code)]
+mod inference;
 mod parallel;
-pub use parallel::{InferenceEngine, ParallelEngine};
+pub use inference::{ExecutionEngine, InferenceEngine};
+pub use parallel::ParallelEngine;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use rsglang_core::{Error, ModelRunner, RequestId, Result, SamplingParams, StepBatch, TokenOutput};
@@ -98,6 +100,14 @@ impl<B: KernelBackend> Engine<B> {
         let logits = self.model.project(&self.backend, &hidden, &meta)?;
         self.backend.synchronize()?;
         Ok(logits)
+    }
+}
+impl<B: KernelBackend> ExecutionEngine for Engine<B> {
+    fn config(&self) -> &ModelConfig {
+        self.config()
+    }
+    fn num_pages(&self) -> usize {
+        self.num_pages()
     }
 }
 impl<B: KernelBackend> ModelRunner for Engine<B> {

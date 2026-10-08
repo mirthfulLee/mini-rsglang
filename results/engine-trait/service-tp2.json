@@ -1,0 +1,110 @@
+{
+  "devices": [
+    4,
+    5
+  ],
+  "request_timeout_s": 180,
+  "nccl_p2p_level": "NVL",
+  "chinese_stream_and_prefix_cache": {
+    "text": "Rust 的所有权是指内存中的数据所有权，通过 `所有权`（ownership）机制来管理，确保内存",
+    "usage": {
+      "completion_tokens": 24,
+      "prompt_tokens": 21,
+      "prompt_tokens_details": {
+        "cached_tokens": 16
+      },
+      "total_tokens": 45
+    },
+    "finish_reason": "length"
+  },
+  "eos_termination": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "content": "1",
+          "role": "assistant"
+        }
+      }
+    ],
+    "created": 1791444386,
+    "id": "chatcmpl-3",
+    "model": "Qwen3-0.6B",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 2,
+      "prompt_tokens": 20,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 22
+    }
+  },
+  "text_and_token_ids_equal": true,
+  "mixed_length_batch_equal": true,
+  "mixed_length_batch_outputs": {
+    "reference": " Also, explain what a mutex is in one sentence. Also",
+    "prompts": [
+      "Explain what a mutex does in one sentence.",
+      "A short story about a cat.",
+      "Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. Write about Rust. ",
+      "Explain what a mutex does in one sentence."
+    ],
+    "outputs": [
+      " Also, explain what a mutex is in one sentence. Also",
+      " The cat is a young girl. The story is about her",
+      " (This is a list of 1000 words",
+      " Also, explain what a mutex is in one sentence. Also"
+    ]
+  },
+  "seeded_sampling_equal": true,
+  "invalid_requests_rejected": true,
+  "disconnect_cancelled": true,
+  "queue_capacity_statuses": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429
+  ],
+  "idle_page_conservation": {
+    "cached_pages": 15,
+    "cached_tokens": 16,
+    "cancelled": 1,
+    "completed": 21,
+    "decode_batches": 867,
+    "failed": 0,
+    "free_pages": 58,
+    "generated_tokens": 2410,
+    "healthy": 1,
+    "peak_memory_bytes": 155983151104,
+    "prefill_batches": 25,
+    "prompt_tokens": 284,
+    "running": 0,
+    "submitted": 22,
+    "waiting": 0
+  },
+  "impossible_request_rejected": true,
+  "behavior_failures": [],
+  "passed": true
+}
