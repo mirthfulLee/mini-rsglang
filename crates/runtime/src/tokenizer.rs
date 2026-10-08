@@ -22,11 +22,15 @@ impl TextProcessor {
         let cfg: serde_json::Value =
             serde_json::from_slice(&std::fs::read(path.join("tokenizer_config.json"))?)
                 .map_err(|e| Error::Invalid(e.to_string()))?;
-        let template = cfg
-            .get("chat_template")
-            .and_then(|v| v.as_str())
-            .ok_or_else(|| Error::Invalid("missing chat template".into()))?
-            .to_owned();
+        let template_file = path.join("chat_template.jinja");
+        let template = if template_file.exists() {
+            std::fs::read_to_string(template_file)?
+        } else {
+            cfg.get("chat_template")
+                .and_then(|v| v.as_str())
+                .ok_or_else(|| Error::Invalid("missing chat template".into()))?
+                .to_owned()
+        };
         Ok(Self {
             tokenizer,
             template,
@@ -52,6 +56,36 @@ impl TextProcessor {
         }
         let mut env = minijinja::Environment::new();
         env.set_unknown_method_callback(minijinja_contrib::pycompat::unknown_method_callback);
+        env.add_function(
+            "strftime_now",
+            |format: String| -> std::result::Result<String, minijinja::Error> {
+                if chrono::format::StrftimeItems::new(&format)
+                    .any(|item| matches!(item, chrono::format::Item::Error))
+                {
+                    return Err(minijinja::Error::new(
+                        minijinja::ErrorKind::InvalidOperation,
+                        "invalid date format",
+                    ));
+                }
+                Ok(chrono::Utc::now().format(&format).to_string())
+            },
+        );
+        env.add_function(
+            "raise_exception",
+            |message: String| -> std::result::Result<String, minijinja::Error> {
+                Err(minijinja::Error::new(
+                    minijinja::ErrorKind::InvalidOperation,
+                    message,
+                ))
+            },
+        );
+        let mut messages =
+            serde_json::to_value(messages).map_err(|e| Error::Invalid(e.to_string()))?;
+        for message in messages.as_array_mut().expect("serialized message array") {
+            if let Some(reasoning) = message.get("reasoning_content").cloned() {
+                message["thinking"] = reasoning;
+            }
+        }
         env.add_template("chat", &self.template)
             .map_err(|e| Error::Invalid(e.to_string()))?;
         env.get_template("chat").map_err(|e|Error::Invalid(e.to_string()))?.render(minijinja::context!{messages=>messages,tools=>false,add_generation_prompt=>true,enable_thinking=>enable_thinking}).map_err(|e|Error::Invalid(e.to_string()))

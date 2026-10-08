@@ -1,5 +1,6 @@
 """Checkpoint chat-template byte and token equality against Hugging Face."""
 
+import argparse
 import json
 import pathlib
 import subprocess
@@ -7,7 +8,13 @@ import subprocess
 from transformers import AutoTokenizer
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-model = "/models/store/Qwen/Qwen3-0.6B"
+parser = argparse.ArgumentParser()
+parser.add_argument("--model", default="/models/store/Qwen/Qwen3-0.6B")
+parser.add_argument("--output", default="results")
+args = parser.parse_args()
+model = args.model
+output = ROOT / args.output
+output.mkdir(parents=True, exist_ok=True)
 tok = AutoTokenizer.from_pretrained(model, local_files_only=True)
 fixtures = [
     [{"role": "user", "content": "你好！"}],
@@ -29,7 +36,7 @@ fixtures = [
 ]
 report = []
 for i, messages in enumerate(fixtures):
-    path = ROOT / f"results/template-{i}.json"
+    path = output / f"template-{i}.json"
     path.write_text(json.dumps(messages))
     for thinking in [False, True]:
         raw = subprocess.check_output(
@@ -66,5 +73,5 @@ for i, messages in enumerate(fixtures):
                 "equal": True,
             }
         )
-(ROOT / "results/template-report.json").write_text(json.dumps(report, indent=2))
+(output / "template-report.json").write_text(json.dumps(report, indent=2))
 print(json.dumps(report, indent=2))

@@ -108,6 +108,14 @@ target/release/examples/collectives 0,1,2,3,4,5,6,7
 See [TP verification](tensor-parallel.md#reproduce-verification) for the complete
 matrix and known NCCL sanitizer failure. CPU CI does not replace these GPU checks.
 
+## GPT-OSS
+
+See [GPT-OSS implementation and validation](gpt-oss.md) for BF16/MXFP4 fixture
+checks, native 120B verification, template matching, and HTTP smoke commands.
+`verify_service.py --smoke-only` runs a generic completion JSON/SSE check without
+the Qwen-specific acceptance prompts. `verify_template.py --model PATH --output
+DIR` supports other local checkpoints while keeping original reports separate.
+
 ## Optional mini-sglang comparison
 
 Clone the reference checkout next to this repository as `../mini-sglang`, then

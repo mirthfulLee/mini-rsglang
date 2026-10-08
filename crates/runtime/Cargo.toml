@@ -15,3 +15,4 @@ tokenizers = { version = "0.22", default-features = false, features = ["onig"] }
 minijinja = { version = "2", features = ["loader", "json", "loop_controls", "builtins"] }
 minijinja-contrib = { version = "2", features = ["pycompat"] }
 tracing.workspace = true
+chrono = { version = "0.4", default-features = false, features = ["clock"] }

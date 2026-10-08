@@ -14,6 +14,11 @@ from transformers import AutoTokenizer
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 p = argparse.ArgumentParser()
+p.add_argument(
+    "--smoke-only",
+    action="store_true",
+    help="generic model loading and completion JSON/SSE checks",
+)
 p.add_argument("--model", default="/models/store/Qwen/Qwen3-0.6B")
 p.add_argument("--device", type=int, default=1)
 p.add_argument("--devices")
@@ -123,6 +128,49 @@ def idle():
             return m
         time.sleep(0.02)
     raise AssertionError("scheduler did not become idle")
+
+
+if a.smoke_only:
+    try:
+        start()
+        report["model"] = client.get(base + "/v1/models", timeout=5).json()
+        body = {"prompt": "Hello", "max_tokens": 4, "temperature": 0}
+        response = post(body)
+        response.raise_for_status()
+        full = response.json()
+        response = post(
+            {**body, "stream": True, "stream_options": {"include_usage": True}}
+        )
+        response.raise_for_status()
+        chunks, usage, done = [], None, False
+        for line in response.iter_lines(decode_unicode=True):
+            if not line.startswith("data: "):
+                continue
+            if line[6:] == "[DONE]":
+                done = True
+                break
+            data = json.loads(line[6:])
+            usage = data.get("usage") or usage
+            for choice in data.get("choices", []):
+                chunks.append(choice.get("text", ""))
+        assert done and "".join(chunks) == full["choices"][0]["text"]
+        assert usage["completion_tokens"] == full["usage"]["completion_tokens"] == 4
+        report.update(
+            nonstreaming=full,
+            stream_text="".join(chunks),
+            stream_usage=usage,
+            stream_done=done,
+        )
+        m = idle()
+        assert m["free_pages"] + m["cached_pages"] == capacity, m
+        client.get(base + "/health", timeout=5).raise_for_status()
+        report.update(idle_page_conservation=m, passed=True)
+        output.write_text(json.dumps(report, ensure_ascii=False, indent=2))
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+    finally:
+        stop()
+        log.close()
+    raise SystemExit(0)
 
 
 def stream(body):

@@ -106,3 +106,82 @@ fn checkpoint_slices_columns_and_zero_pads_empty_vocab_ranks() {
         assert_eq!(got, vec![bf16::ZERO; 24]);
     }
 }
+
+fn gpt_config() -> crate::GptOssConfig {
+    serde_json::from_value(serde_json::json!({
+        "model_type":"gpt_oss", "architectures":["GptOssForCausalLM"],
+        "hidden_size":64, "intermediate_size":64, "num_hidden_layers":2,
+        "num_attention_heads":8, "num_key_value_heads":2, "head_dim":8,
+        "vocab_size":67, "max_position_embeddings":64, "num_local_experts":4,
+        "num_experts_per_tok":2, "rms_norm_eps":1e-5, "rope_theta":150000,
+        "layer_types":["sliding_attention","full_attention"], "sliding_window":8,
+        "attention_bias":true, "hidden_act":"silu", "tie_word_embeddings":false,
+        "eos_token_id":66
+    }))
+    .unwrap()
+}
+#[test]
+fn gpt_oss_rejects_invalid_architecture_routing_windows_and_scaling() {
+    let c = gpt_config();
+    c.validate_tp(TensorParallel::new(3, 4).unwrap()).unwrap();
+    let mut bad = c.clone();
+    bad.num_experts_per_tok = 5;
+    assert!(bad.validate_tp(TensorParallel::default()).is_err());
+    let mut bad = c.clone();
+    bad.layer_types[0] = "unknown".into();
+    assert!(bad.validate_tp(TensorParallel::default()).is_err());
+    let mut bad = c.clone();
+    bad.sliding_window = 0;
+    assert!(bad.validate_tp(TensorParallel::default()).is_err());
+    let mut bad = c.clone();
+    bad.eos_token_id = serde_json::json!([67]);
+    assert!(bad.validate_tp(TensorParallel::default()).is_err());
+    let mut bad = c.clone();
+    bad.quantization_config = Some(serde_json::json!({"quant_method":"fp8"}));
+    assert!(bad.validate_tp(TensorParallel::default()).is_err());
+    let mut bad = c;
+    bad.rope_scaling=Some(serde_json::from_value(serde_json::json!({"rope_type":"yarn","factor":0.0,"original_max_position_embeddings":16,"beta_fast":32.0,"beta_slow":1.0})).unwrap());
+    assert!(bad.validate_tp(TensorParallel::default()).is_err());
+}
+#[test]
+fn streamed_checkpoint_checks_byte_ranges_before_reading() {
+    use crate::checkpoint::Checkpoint;
+    let path = std::env::temp_dir().join(format!(
+        "rsglang-checkpoint-{}-{}",
+        std::process::id(),
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_nanos()
+    ));
+    std::fs::create_dir(&path).unwrap();
+    let write = |header: serde_json::Value, data: &[u8]| {
+        let header = serde_json::to_vec(&header).unwrap();
+        let mut bytes = (header.len() as u64).to_le_bytes().to_vec();
+        bytes.extend(header);
+        bytes.extend(data);
+        std::fs::write(path.join("model.safetensors"), bytes).unwrap();
+    };
+    write(
+        serde_json::json!({"weight":{"dtype":"BF16","shape":[1],"data_offsets":[0,2]}}),
+        &[128, 63],
+    );
+    let mut cp = Checkpoint::open(&path).unwrap();
+    let tensor = cp.take("weight", &[1]).unwrap();
+    assert_eq!(tensor.read().unwrap(), [128, 63]);
+    assert!(tensor.read_range(1, 2).is_err());
+    cp.finish().unwrap();
+    write(
+        serde_json::json!({"weight":{"dtype":"BF16","shape":[1],"data_offsets":[0,3]}}),
+        &[128, 63],
+    );
+    assert!(Checkpoint::open(&path).is_err());
+    write(
+        serde_json::json!({"a":{"dtype":"BF16","shape":[1],"data_offsets":[0,2]},"b":{"dtype":"BF16","shape":[1],"data_offsets":[0,2]}}),
+        &[128, 63],
+    );
+    assert!(Checkpoint::open(&path).is_err());
+    std::fs::write(path.join("model.safetensors"), u64::MAX.to_le_bytes()).unwrap();
+    assert!(Checkpoint::open(&path).is_err());
+    std::fs::remove_dir_all(path).unwrap();
+}

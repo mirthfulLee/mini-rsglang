@@ -1,0 +1,26 @@
+{
+  "devices": [
+    6,
+    7
+  ],
+  "tp": 2,
+  "reports": [
+    {
+      "step": 0,
+      "nrmse": 0.021652648288008922,
+      "cosine": 0.9997735416739542,
+      "rust_top1": 11,
+      "hf_top1": 11,
+      "passed": false
+    },
+    {
+      "step": 1,
+      "nrmse": 0.003619710502454814,
+      "cosine": 0.9999934588358677,
+      "rust_top1": 5922,
+      "hf_top1": 5922,
+      "passed": true
+    }
+  ],
+  "passed": false
+}

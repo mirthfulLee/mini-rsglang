@@ -10,7 +10,7 @@ use std::{io::Write, path::PathBuf};
 #[command(
     name = "mini-rsglang",
     version,
-    about = "Rust Qwen3 inference and serving with single-GPU or tensor parallel execution"
+    about = "Rust LLM inference and serving with single-GPU or tensor parallel execution"
 )]
 struct Cli {
     #[arg(long, global = true, default_value = "/models/store/Qwen/Qwen3-0.6B")]

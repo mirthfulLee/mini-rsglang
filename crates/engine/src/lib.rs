@@ -6,12 +6,12 @@ use rand_chacha::ChaCha8Rng;
 use rsglang_core::{Error, ModelRunner, RequestId, Result, SamplingParams, StepBatch, TokenOutput};
 use rsglang_distributed::{RankRunner, TensorParallel};
 use rsglang_kernels::{CudaBackend, KernelBackend};
-use rsglang_models::{LayerKv, Qwen3, Qwen3Config};
+use rsglang_models::{LayerKv, Model, ModelConfig};
 use std::{collections::HashMap, path::Path};
 
 pub struct Engine<B: KernelBackend> {
     backend: B,
-    model: Qwen3<B>,
+    model: Model<B>,
     kv: Vec<LayerKv<B::Tensor>>,
     num_pages: usize,
     page_size: usize,
@@ -26,8 +26,11 @@ impl Engine<CudaBackend> {
         page_size: usize,
         max_seq_len: usize,
     ) -> Result<Self> {
-        let config = Qwen3Config::load(path)?;
-        if max_seq_len == 0 || max_seq_len > config.max_position_embeddings || page_size == 0 {
+        let config = ModelConfig::load(path)?;
+        if max_seq_len == 0
+            || max_seq_len > config.dimensions().max_position_embeddings
+            || page_size == 0
+        {
             return Err(Error::Invalid(
                 "invalid configured context length/page size".into(),
             ));
@@ -43,7 +46,7 @@ impl Engine<CudaBackend> {
     }
     pub(crate) fn load_backend(
         path: &Path,
-        config: Qwen3Config,
+        config: ModelConfig,
         backend: CudaBackend,
         kv_bytes: usize,
         page_size: usize,
@@ -55,7 +58,7 @@ impl Engine<CudaBackend> {
         if num_pages == 0 || num_pages > u32::MAX as usize {
             return Err(Error::Invalid("invalid KV memory budget".into()));
         }
-        let model = Qwen3::load(&backend, path, config)?;
+        let model = Model::load(&backend, path, config)?;
         let kv = model.allocate_kv(&backend, num_pages, page_size)?;
         backend.synchronize()?;
         Ok(Self {
@@ -73,7 +76,7 @@ impl<B: KernelBackend> Engine<B> {
     pub fn backend(&self) -> &B {
         &self.backend
     }
-    pub fn config(&self) -> &Qwen3Config {
+    pub fn config(&self) -> &ModelConfig {
         self.model.config()
     }
     pub fn num_pages(&self) -> usize {
@@ -84,7 +87,7 @@ impl<B: KernelBackend> Engine<B> {
             batch,
             self.page_size,
             self.num_pages,
-            self.config().vocab_size,
+            self.config().dimensions().vocab_size,
             self.max_seq_len,
         )?;
         let hidden = self
@@ -108,7 +111,7 @@ impl<B: KernelBackend> ModelRunner for Engine<B> {
                 batch,
                 self.page_size,
                 self.num_pages,
-                self.config().vocab_size,
+                self.config().dimensions().vocab_size,
                 self.max_seq_len,
             )?;
             let hidden = self

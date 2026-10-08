@@ -1,0 +1,68 @@
+{
+  "devices": [
+    5
+  ],
+  "request_timeout_s": 180,
+  "nccl_p2p_level": null,
+  "model": {
+    "data": [
+      {
+        "created": 0,
+        "id": "gpt-oss-120b",
+        "object": "model",
+        "owned_by": "rsglang"
+      }
+    ],
+    "object": "list"
+  },
+  "nonstreaming": {
+    "choices": [
+      {
+        "finish_reason": "length",
+        "index": 0,
+        "logprobs": null,
+        "text": ", World!\".\n\n"
+      }
+    ],
+    "created": 1791427517,
+    "id": "cmpl-1",
+    "model": "gpt-oss-120b",
+    "object": "text_completion",
+    "usage": {
+      "completion_tokens": 4,
+      "prompt_tokens": 1,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "total_tokens": 5
+    }
+  },
+  "stream_text": ", World!\".\n\n",
+  "stream_usage": {
+    "completion_tokens": 4,
+    "prompt_tokens": 1,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 5
+  },
+  "stream_done": true,
+  "idle_page_conservation": {
+    "cached_pages": 0,
+    "cached_tokens": 0,
+    "cancelled": 0,
+    "completed": 2,
+    "decode_batches": 6,
+    "failed": 0,
+    "free_pages": 56,
+    "generated_tokens": 8,
+    "healthy": 1,
+    "peak_memory_bytes": 81156177920,
+    "prefill_batches": 2,
+    "prompt_tokens": 2,
+    "running": 0,
+    "submitted": 2,
+    "waiting": 0
+  },
+  "passed": true
+}

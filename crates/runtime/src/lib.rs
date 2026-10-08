@@ -149,7 +149,7 @@ impl EngineHandle {
                         .unwrap_or_default()
                         .to_string_lossy()
                         .into_owned(),
-                    vocab_size: engine.config().vocab_size,
+                    vocab_size: engine.config().dimensions().vocab_size,
                     num_pages: engine.num_pages(),
                     tensor_parallel_size: devices.len(),
                     devices,

@@ -1,5 +1,6 @@
 //! Checked CUDA operations. Raw pointers and unsafe launches stay inside this crate.
 mod collective;
+mod gpt_oss_ops;
 mod interface;
 mod nccl_api;
 mod parallel_ops;
@@ -523,6 +524,34 @@ impl KernelBackend for CudaBackend {
         .map_err(backend)?;
         Ok(out)
     }
+    fn gpt_rms_norm(&self, x: &Tensor, w: &Tensor, width: usize, eps: f32) -> Result<Tensor> {
+        self.check(x)?;
+        self.check(w)?;
+        if width == 0
+            || !x.data.len().is_multiple_of(width)
+            || w.data.len() != width
+            || !eps.is_finite()
+            || eps <= 0.0
+        {
+            return Err(invalid("RMSNorm shape/epsilon mismatch"));
+        }
+        let mut out = self.zeros(&x.shape)?;
+        let d = int(width)?;
+        let fun = self.function("rms_gpt")?;
+        // SAFETY: each CTA owns a row; each full warp initializes its shared reduction slot.
+        unsafe {
+            self.stream
+                .launch_builder(&fun)
+                .arg(&x.data)
+                .arg(&w.data)
+                .arg(&mut out.data)
+                .arg(&d)
+                .arg(&eps)
+                .launch(Self::rows(x.data.len() / width, 256)?)
+        }
+        .map_err(backend)?;
+        Ok(out)
+    }
     fn linear(&self, x: &Tensor, w: &Tensor) -> Result<Tensor> {
         let (m, n, _) = self.linear_shape(x, w)?;
         let mut out = self.zeros(&[m, n])?;
@@ -676,54 +705,58 @@ impl KernelBackend for CudaBackend {
         kvheads: usize,
         dim: usize,
     ) -> Result<Tensor> {
-        for x in [q, kc, vc] {
-            self.check(x)?;
+        self.attention_checked(q, kc, vc, m, qheads, kvheads, dim, None, 0)
+    }
+    fn linear_bias(
+        &self,
+        x: &Tensor,
+        weight: &Tensor,
+        bias: &Tensor,
+        reduce: bool,
+    ) -> Result<Tensor> {
+        self.linear_bias_checked(x, weight, bias, reduce)
+    }
+    fn gpt_swiglu(&self, x: &Tensor, limit: f32) -> Result<Tensor> {
+        self.gpt_swiglu_checked(x, limit)
+    }
+    fn rope_scaled(
+        &self,
+        x: &mut Tensor,
+        m: &Metadata,
+        heads: usize,
+        dim: usize,
+        frequencies: &[f32],
+        magnitude: f32,
+    ) -> Result<()> {
+        self.rope_scaled_checked(x, m, heads, dim, frequencies, magnitude)
+    }
+    fn attention_sink(
+        &self,
+        q: &Tensor,
+        kc: &Tensor,
+        vc: &Tensor,
+        m: &Metadata,
+        sinks: &Tensor,
+        window: usize,
+        dim: usize,
+    ) -> Result<Tensor> {
+        if sinks.shape.len() != 1 || kc.shape.len() != 4 {
+            return Err(invalid("attention sink/cache shape mismatch"));
         }
-        self.check_meta(m)?;
-        if !(1..=256).contains(&dim)
-            || kvheads == 0
-            || !qheads.is_multiple_of(kvheads)
-            || q.shape != [m.tokens, qheads * dim]
-            || kc.shape != [m.pages, m.page_size, kvheads, dim]
-            || vc.shape != kc.shape
-        {
-            return Err(invalid("paged GQA shape mismatch"));
-        }
-        let mut out = self.zeros(&q.shape)?;
-        let qh = int(qheads)?;
-        let kh = int(kvheads)?;
-        let d = int(dim)?;
-        let p = int(m.page_size)?;
-        let tw = int(m.table_width)?;
-        let scale_q = (dim as f64).powf(-0.25) as f32;
-        let fun = self.function("attention")?;
-        let cfg = LaunchConfig {
-            grid_dim: (m.tokens as u32, qheads as u32, 1),
-            block_dim: (128, 1, 1),
-            shared_mem_bytes: 0,
-        };
-        // SAFETY: CTA(row,head) exclusively owns its output. Metadata guarantees page coverage
-        // through each causal position. Shared query <=256 and every CTA uses 4 full warps.
-        unsafe {
-            self.stream
-                .launch_builder(&fun)
-                .arg(&q.data)
-                .arg(&kc.data)
-                .arg(&vc.data)
-                .arg(&m.positions)
-                .arg(&m.sequences)
-                .arg(&m.table)
-                .arg(&mut out.data)
-                .arg(&qh)
-                .arg(&kh)
-                .arg(&d)
-                .arg(&p)
-                .arg(&tw)
-                .arg(&scale_q)
-                .launch(cfg)
-        }
-        .map_err(backend)?;
-        Ok(out)
+        self.attention_checked(
+            q,
+            kc,
+            vc,
+            m,
+            sinks.shape[0],
+            kc.shape[2],
+            dim,
+            Some(sinks),
+            window,
+        )
+    }
+    fn upload_mxfp4(&self, blocks: &[u8], scales: &[u8], shape: &[usize]) -> Result<Tensor> {
+        self.mxfp4_checked(blocks, scales, shape)
     }
     fn last_hidden(&self, x: &Tensor, m: &Metadata) -> Result<Tensor> {
         self.check(x)?;

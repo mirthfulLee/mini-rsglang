@@ -94,6 +94,43 @@ pub trait KernelBackend {
         kvheads: usize,
         dim: usize,
     ) -> Result<Self::Tensor>;
+    fn gpt_rms_norm(
+        &self,
+        x: &Self::Tensor,
+        weights: &Self::Tensor,
+        width: usize,
+        eps: f32,
+    ) -> Result<Self::Tensor>;
+    fn linear_bias(
+        &self,
+        x: &Self::Tensor,
+        weight: &Self::Tensor,
+        bias: &Self::Tensor,
+        reduce: bool,
+    ) -> Result<Self::Tensor>;
+    fn gpt_swiglu(&self, x: &Self::Tensor, limit: f32) -> Result<Self::Tensor>;
+    #[allow(clippy::too_many_arguments)]
+    fn rope_scaled(
+        &self,
+        x: &mut Self::Tensor,
+        meta: &Self::Metadata,
+        heads: usize,
+        dim: usize,
+        frequencies: &[f32],
+        magnitude: f32,
+    ) -> Result<()>;
+    #[allow(clippy::too_many_arguments)]
+    fn attention_sink(
+        &self,
+        q: &Self::Tensor,
+        kc: &Self::Tensor,
+        vc: &Self::Tensor,
+        meta: &Self::Metadata,
+        sinks: &Self::Tensor,
+        window: usize,
+        dim: usize,
+    ) -> Result<Self::Tensor>;
+    fn upload_mxfp4(&self, blocks: &[u8], scales: &[u8], shape: &[usize]) -> Result<Self::Tensor>;
     fn last_hidden(&self, x: &Self::Tensor, meta: &Self::Metadata) -> Result<Self::Tensor>;
     fn logits(&self, x: &Self::Tensor, weights: &Self::Tensor) -> Result<Self::Logits>;
     fn argmax(&self, logits: &Self::Logits) -> Result<Vec<u32>>;

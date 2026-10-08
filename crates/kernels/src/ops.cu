@@ -100,16 +100,18 @@ extern "C" __global__ void scatter(const bf16* k,const bf16* v,const unsigned* s
 // Prefill and decode use the same causal paged addressing, including cached prefixes.
 extern "C" __global__ void attention(const bf16* q,const bf16* kc,const bf16* vc,
     const unsigned* pos,const unsigned* seq,const unsigned* table,bf16* out,
-    int qheads,int kvheads,int d,int page_size,int table_width,float scale_q) {
+    int qheads,int kvheads,int d,int page_size,int table_width,float scale_q,
+    const bf16* sinks,int window,int has_sink) {
     __shared__ float query[256], scores[32], probs[32], alpha, denom, maximum;
     int row=blockIdx.x, head=blockIdx.y, t=threadIdx.x, lane=t%32, warp=t/32;
     int kh=head/(qheads/kvheads), length=pos[row]+1;
     const unsigned* pages=table+(size_t)seq[row]*table_width;
     for(int j=t;j<d;j+=128)query[j]=f(q[((size_t)row*qheads+head)*d+j])*scale_q;
-    if(t==0) { denom=0; maximum=-CUDART_INF_F; }
+    if(t==0) { denom=has_sink ? 1.0f : 0.0f; maximum=has_sink ? f(sinks[head]) : -CUDART_INF_F; }
     float acc[2]={0,0};
     __syncthreads();
-    for(int base=0;base<length;base+=32) {
+    int first=window>0 ? max(0,length-window) : 0;
+    for(int base=first;base<length;base+=32) {
         for(int j=warp;j<32;j+=4) {
             int p=base+j;
             float dot=0;
@@ -163,4 +165,101 @@ extern "C" __global__ void argmax(const float* x,unsigned* out,int d) {
 extern "C" __global__ void sum_ranks(const float* ranked,float* out,int n,int ranks) {
     int i=blockIdx.x*blockDim.x+threadIdx.x;
     if(i<n) {float sum=0;for(int rank=0;rank<ranks;rank++)sum+=ranked[(size_t)rank*n+i];out[i]=sum;}
+}
+
+// GPT-OSS interleaved, clipped SwiGLU.
+extern "C" __global__ void gpt_swiglu(const bf16* x,bf16* out,int n,float limit) {
+    int i=blockIdx.x*blockDim.x+threadIdx.x;
+    if(i<n) {
+        float g=fminf(f(x[2*i]),limit), u=fminf(fmaxf(f(x[2*i+1]),-limit),limit);
+        float scaled=f(b(1.702f*g));
+        float sigmoid=f(b(1.0f/(1.0f+expf(-scaled))));
+        float glu=f(b(g*sigmoid)), up=f(b(u+1.0f));
+        out[i]=b(glu*up);
+    }
+}
+extern "C" __global__ void gpt_rope(bf16* x,const unsigned* pos,const float* freq,
+    int n,int heads,int d,float magnitude) {
+    int i=blockIdx.x*blockDim.x+threadIdx.x;
+    if(i>=n*heads*(d/2))return;
+    int j=i%(d/2), row=i/(heads*(d/2));
+    size_t off=(size_t)(i/(d/2))*d+j;
+    float angle=(float)pos[row]*freq[j];
+    float c=f(b(cosf(angle)*magnitude)), s=f(b(sinf(angle)*magnitude));
+    float a=f(x[off]), z=f(x[off+d/2]);
+    x[off]=b(f(b(a*c))-f(b(z*s)));
+    x[off+d/2]=b(f(b(z*c))+f(b(a*s)));
+}
+extern "C" __global__ void mxfp4(const unsigned char* blocks,const unsigned char* scales,bf16* out,int n) {
+    int i=blockIdx.x*blockDim.x+threadIdx.x;
+    if(i<n) {
+        const float lut[16]={0,.5f,1,1.5f,2,3,4,6,-0.f,-.5f,-1,-1.5f,-2,-3,-4,-6};
+        int code=(blocks[i/2]>>(4*(i%2)))&15, exponent=scales[i/32];
+        out[i]=b(exponent==255 ? CUDART_NAN_F : ldexpf(lut[code],exponent-127));
+    }
+}
+extern "C" __global__ void rms_gpt(const bf16* x,const bf16* w,bf16* out,int d,float eps) {
+    __shared__ float sums[8];
+    int row=blockIdx.x, t=threadIdx.x;
+    float sum=0;
+    for(int i=t;i<d;i+=blockDim.x) { float v=f(x[(size_t)row*d+i]); sum+=v*v; }
+    sum=warp_sum(sum);
+    if(t%32==0) sums[t/32]=sum;
+    __syncthreads();
+    if(t==0) { float total=0; for(int i=0;i<blockDim.x/32;i++)total+=sums[i]; sums[0]=rsqrtf(total/d+eps); }
+    __syncthreads();
+    // GPT-OSS multiplies the norm weight in FP32 before casting the result.
+    for(int i=t;i<d;i+=blockDim.x) out[(size_t)row*d+i]=b(f(x[(size_t)row*d+i])*sums[0]*f(w[i]));
+}
+extern "C" __global__ void linear_bias(const float* x,const bf16* bias,bf16* out,int n,int width) {
+    int i=blockIdx.x*blockDim.x+threadIdx.x;
+    if(i<n)out[i]=b(x[i]+f(bias[i%width]));
+}
+// HF eager GPT-OSS attention rounds scores, centered logits, and probabilities to BF16.
+extern "C" __global__ void attention_gpt(const bf16* q,const bf16* kc,const bf16* vc,
+    const unsigned* pos,const unsigned* seq,const unsigned* table,bf16* out,
+    int qheads,int kvheads,int d,int page_size,int table_width,float scale_q,
+    const bf16* sinks,int window,int has_sink) {
+    __shared__ float query[256], scores[32], probs[32], maximum, denom;
+    int row=blockIdx.x,head=blockIdx.y,t=threadIdx.x,lane=t%32,warp=t/32;
+    int kh=head/(qheads/kvheads),length=pos[row]+1;
+    int first=window>0 ? max(0,length-window) : 0;
+    const unsigned* pages=table+(size_t)seq[row]*table_width;
+    for(int z=t;z<d;z+=128)query[z]=f(q[((size_t)row*qheads+head)*d+z]);
+    if(t==0) {maximum=f(sinks[head]);denom=0;}
+    float acc[2]={0,0};
+    __syncthreads();
+    for(int pass=0;pass<3;pass++) {
+        if(pass==1 && t==0)denom=expf(f(b(f(sinks[head])-maximum)));
+        __syncthreads();
+        for(int base=first;base<length;base+=32) {
+            for(int j=warp;j<32;j+=4) {
+                int p=base+j;float dot=0;
+                if(p<length) {
+                    size_t off=((size_t)pages[p/page_size]*page_size+p%page_size)*kvheads*d+(size_t)kh*d;
+                    for(int z=lane;z<d;z+=32)dot+=query[z]*f(kc[off+z]);
+                }
+                dot=warp_sum(dot);
+                if(lane==0)scores[j]=p<length ? f(b(f(b(dot))*rsqrtf((float)d))) : -CUDART_INF_F;
+            }
+            __syncthreads();
+            if(t==0) {
+                for(int j=0;j<32;j++) {
+                    if(pass==0)maximum=fmaxf(maximum,scores[j]);
+                    else if(pass==1)denom+=expf(f(b(scores[j]-maximum)));
+                    else probs[j]=f(b(expf(f(b(scores[j]-maximum)))/denom));
+                }
+            }
+            __syncthreads();
+            if(pass==2)for(int z=t;z<d;z+=128) {
+                for(int j=0;j<32 && base+j<length;j++) {
+                    int p=base+j;
+                    size_t off=((size_t)pages[p/page_size]*page_size+p%page_size)*kvheads*d+(size_t)kh*d+z;
+                    acc[z/128]+=probs[j]*f(vc[off]);
+                }
+            }
+            __syncthreads();
+        }
+    }
+    for(int z=t;z<d;z+=128)out[((size_t)row*qheads+head)*d+z]=b(acc[z/128]);
 }

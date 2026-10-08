@@ -5,7 +5,7 @@ use std::{path::PathBuf, sync::Arc, time::Duration};
 
 pub struct ParallelEngine {
     ranks: RankGroup,
-    config: Qwen3Config,
+    config: ModelConfig,
     num_pages: usize,
     devices: Vec<usize>,
 }
@@ -30,10 +30,13 @@ impl ParallelEngine {
                 "requested GPU outside available device count {count}"
             )));
         }
-        let config = Qwen3Config::load(path)?;
+        let config = ModelConfig::load(path)?;
         let tp = TensorParallel::new(0, devices.len())?;
         config.validate_tp(tp)?;
-        if page_size == 0 || max_seq_len == 0 || max_seq_len > config.max_position_embeddings {
+        if page_size == 0
+            || max_seq_len == 0
+            || max_seq_len > config.dimensions().max_position_embeddings
+        {
             return Err(Error::Invalid("invalid context length/page size".into()));
         }
         let num_pages = kv_bytes / config.kv_bytes_per_page_tp(page_size, tp)?;
@@ -74,7 +77,7 @@ impl ParallelEngine {
             devices: devices.to_vec(),
         })
     }
-    pub fn config(&self) -> &Qwen3Config {
+    pub fn config(&self) -> &ModelConfig {
         &self.config
     }
     pub fn num_pages(&self) -> usize {
@@ -137,7 +140,7 @@ impl InferenceEngine {
             )?)))
         }
     }
-    pub fn config(&self) -> &Qwen3Config {
+    pub fn config(&self) -> &ModelConfig {
         match self {
             Self::Single(e) => e.config(),
             Self::Parallel(e) => e.config(),

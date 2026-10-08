@@ -1,0 +1,33 @@
+{
+  "model": "/models/store/openai/gpt-oss-120b",
+  "prompt": "Hello",
+  "devices": "0",
+  "prompt_ids": [
+    13225
+  ],
+  "continuation": [
+    11
+  ],
+  "reference": "HF attention/RMSNorm/YaRN and streamed PyTorch MXFP4 experts",
+  "reference_seconds": 17.3916659867391,
+  "rust_seconds": 17.456887727603316,
+  "reports": [
+    {
+      "step": 0,
+      "nrmse": 0.022003635800962703,
+      "cosine": 0.9997703342451747,
+      "rust_top1": 11,
+      "hf_top1": 11,
+      "passed": false
+    },
+    {
+      "step": 1,
+      "nrmse": 0.008585046929638376,
+      "cosine": 0.9999717447494832,
+      "rust_top1": 5922,
+      "hf_top1": 5922,
+      "passed": true
+    }
+  ],
+  "passed": false
+}

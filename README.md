@@ -1,6 +1,6 @@
 # mini-rsglang
 
-A small Rust inference engine for Qwen3 dense and MoE models, inspired by
+A small Rust inference engine for Qwen3 dense/MoE and experimental GPT-OSS models, inspired by
 [mini-sglang](https://github.com/sgl-project/mini-sglang). It supports single-GPU
 and NCCL tensor-parallel execution, offline generation, and an OpenAI-style
 HTTP API. Inference runs entirely in Rust with CUDA; Python is used for
@@ -9,7 +9,7 @@ independent verification.
 ## What works
 
 - Local safetensors loading, BF16 weights/activations/KV, and FP32 logits.
-- Qwen3 dense and MoE layers, paged grouped-query attention, and tensor parallelism.
+- Qwen3 dense/MoE and GPT-OSS layers, paged grouped-query attention, and tensor parallelism.
 - Continuous batching, chunked prefill, radix prefix sharing/eviction, and request cancellation.
 - Greedy and seeded top-k/top-p sampling, checkpoint chat templates, and UTF-8 streaming.
 - CLI generation/benchmarks, a Rust streaming API, and JSON/SSE serving.
@@ -54,8 +54,9 @@ target/release/mini-rsglang --model "$MODEL_PATH" generate \
 ```
 
 The checkpoint directory must contain `config.json`, `tokenizer.json`,
-`tokenizer_config.json` with a chat template, and either `model.safetensors`
-or indexed safetensors shards. `generation_config.json` is optional and supplies
+`tokenizer_config.json` and either `model.safetensors`
+or indexed safetensors shards. The chat template may be in `tokenizer_config.json`
+or a standalone `chat_template.jinja`. `generation_config.json` is optional and supplies
 EOS metadata when present. The engine does not download checkpoints.
 
 Use `--json` for token/event JSONL, or supply token IDs directly:
@@ -73,11 +74,31 @@ target/release/mini-rsglang generate --help
 | --- | --- | --- |
 | `Qwen3ForCausalLM` | Qwen3-0.6B, Qwen3-1.7B | Single GPU and TP 2/4/8 |
 | `Qwen3MoeForCausalLM` | Synthetic fixtures; Qwen3-30B-A3B | Synthetic TP 1/2/4/8; real 30B TP 8 |
+| `GptOssForCausalLM` | BF16/MXFP4 fixtures; gpt-oss-120b | Synthetic TP 1/2/4; real 120B single GPU and TP 2 |
 
-The loader validates architecture and dimensions. RoPE scaling, sliding-window
-attention, biased attention, and non-SiLU variants are unsupported. Other
-architectures, including GPT-OSS, are not implemented. Exercised checkpoints
-still have the numerical limitations documented below.
+The loader dispatches by `model_type` and validates architecture and dimensions.
+Qwen3 variants with RoPE scaling, sliding-window attention, biased attention, or
+non-SiLU activation remain unsupported. GPT-OSS has a separate implementation
+with YaRN, sliding/full attention, sinks, biases, and clipped interleaved SwiGLU.
+Other architectures are not implemented.
+
+GPT-OSS reads the Hugging Face checkpoint layout, including native MXFP4 expert
+blocks/scales. Attention and embeddings stay on the GPU; selected experts are
+read from checkpoint files, decoded, uploaded, and released each step. This
+bounds GPU memory but adds disk/host-transfer and synchronization overhead.
+The 120B short prefill/decode checks match reference top-1 predictions, while
+some logits still exceed the strict numerical gate. See [GPT-OSS validation](docs/gpt-oss.md).
+
+```bash
+target/release/mini-rsglang --model /models/store/openai/gpt-oss-120b \
+  --tp 2 --kv-mib 128 --max-seq-len 1024 generate \
+  --chat --prompt 'Say hello.' --max-tokens 64
+```
+
+GPT-OSS uses its checkpoint's default reasoning setting. `enable_thinking` only
+controls Qwen3 templates. Harmony channel/tool messages are not parsed into
+separate API fields; generated reasoning and channel labels appear in the
+decoded continuation. Tool use remains unsupported.
 
 ## HTTP serving
 
@@ -189,7 +210,7 @@ cargo run --release --locked -p rsglang-runtime --example generate -- "$MODEL_PA
 | `crates/core` | Protocol, sampling parameters, runtime configuration, runner contract |
 | `crates/distributed` | TP layouts, checkpoint slices, rank workers and barriers |
 | `crates/kernels` | Backend interface, checked CUDA operations, cuBLAS/NVRTC/NCCL |
-| `crates/models` | Configuration, safetensors loading, Qwen3 dense/MoE execution |
+| `crates/models` | Configuration, safetensors loading, Qwen3/GPT-OSS execution |
 | `crates/cache` | CPU page ownership, reservations, naive/radix caches |
 | `crates/engine` | Physical KV, forward execution, sampling |
 | `crates/runtime` | Scheduler, tokenizer/templates, streams, lifecycle and metrics |
@@ -234,7 +255,7 @@ uvx ruff==0.16.10 format --check scripts
 
 See [development and verification](docs/development.md) to set up the separate
 Python environment and reproduce GPU checks. CUDA Graph, overlap scheduling,
-quantization, PP/DP/SP/EP, fused expert kernels, and cuTile/cuda-oxide execution
+quantization beyond GPT-OSS MXFP4, PP/DP/SP/EP, fused expert kernels, and cuTile/cuda-oxide execution
 remain future work. The current attention kernel is a simple SIMT implementation
 and intermediates are allocated per step. The [cuTile plan](docs/cutile.md)
 describes requirements for a future backend.

@@ -21,7 +21,7 @@ flowchart LR
 | core | none | Protocol, sampling, runtime config, synchronous-completion runner contract |
 | distributed | core | CPU TP layout/checkpoint slices, rank messages and completion barrier |
 | kernels | core, distributed | Device resources, checked tensor operations, CUDA compatibility implementation |
-| models | core, distributed, kernels | Checkpoint config, rank-local shard loading, Qwen3 dense/MoE layers |
+| models | core, distributed, kernels | Checkpoint config, rank-local shard loading, Qwen3 dense/MoE and GPT-OSS layers |
 | cache | core | Pure CPU page references, reservations, naive/radix caches |
 | engine | core, distributed, kernels, models | Physical per-layer KV, forward execution, greedy/stochastic sampling |
 | runtime | core, cache, engine | Scheduler, worker lifecycle, tokenizer/template, streams and metrics |
@@ -33,6 +33,15 @@ metadata, `weights.rs` validates safetensors and uploads rank-local slices, and
 re-exports `Qwen3Config`, `Qwen3`, and `LayerKv`. The backend-independent
 `KernelBackend` contract and `ExpertAssignment` are in `kernels/src/interface.rs`;
 CUDA resources and checked operations remain inside the kernels crate.
+
+`ModelConfig` and `Model` dispatch between Qwen3 and GPT-OSS. Engine callers
+obtain shared dimensions through `config().dimensions()`; Qwen3-specific types
+remain exported. GPT-OSS uses separate configuration/YaRN and forward modules,
+a checked checkpoint range reader, and resident attention/embedding weights.
+Its experts are fetched on demand from BF16 tensors or MXFP4 blocks/scales, then
+uploaded for the selected rows. Temporary expert buffers are dropped after an
+ordered completion boundary. See [GPT-OSS](gpt-oss.md) for numerical and serving
+limits.
 
 The runtime worker owns the scheduler and its ModelRunner. Single-GPU mode constructs/owns its engine on that thread. TP mode uses RankGroup: each GPU thread constructs/owns a rank-local engine, and all ranks receive matching CPU batches. Only rank 0 samples; every rank completes its stream before the coordinator returns. CPU cache metadata never holds device pointers. `StepBatch` contains token IDs, logical positions, page IDs, and optional sampling parameters; metadata construction validates page coverage, vocabulary bounds, and unique write slots before GPU work.
 

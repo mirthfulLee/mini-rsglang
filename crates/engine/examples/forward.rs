@@ -31,13 +31,13 @@ fn main() -> Result<()> {
         .split(',')
         .map(|s| s.parse::<usize>().unwrap())
         .collect::<Vec<_>>();
-    let config = rsglang_models::Qwen3Config::load(&model)?;
+    let config = rsglang_models::ModelConfig::load(&model)?;
     let mut engine = InferenceEngine::load(
         &model,
         &devices,
         256 * 1024 * 1024,
         16,
-        config.max_position_embeddings.min(4096),
+        config.dimensions().max_position_embeddings.min(4096),
     )?;
     let mut pages = vec![];
     let mut offset = 0u32;

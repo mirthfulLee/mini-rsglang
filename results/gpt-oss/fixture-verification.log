@@ -1,0 +1,39 @@
+exported 3 batched sequences, prefill plus 3 decode steps
+bf16 TP=1 full: compared
+exported 3 batched sequences, prefill plus 3 decode steps
+bf16 TP=1 chunked: compared
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+bf16 TP=2 full: compared
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+bf16 TP=2 chunked: compared
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+bf16 TP=4 full: compared
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+bf16 TP=4 chunked: compared
+exported 3 batched sequences, prefill plus 3 decode steps
+mxfp4 TP=1 full: compared
+exported 3 batched sequences, prefill plus 3 decode steps
+mxfp4 TP=1 chunked: compared
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+mxfp4 TP=2 full: compared
+tensor parallel devices=[0, 1], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+mxfp4 TP=2 chunked: compared
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+mxfp4 TP=4 full: compared
+tensor parallel devices=[0, 1, 2, 3], NCCL=22703
+exported 3 batched sequences, prefill plus 3 decode steps
+mxfp4 TP=4 chunked: compared
+{
+  "comparisons": 144,
+  "failures": 0,
+  "max_nrmse": 0.007208269217065582,
+  "min_cosine": 0.9999745528585577,
+  "top1_matches": 144
+}
